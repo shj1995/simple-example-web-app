@@ -38,43 +38,128 @@ export class StartupService {
       resolve({});
       return;
     }
-    // this.httpClient.get('/tk/systemInfo').subscribe((appData) => {
-
-    //   // Application data
-    //   const res: any = appData;
-    //   // Application information: including site name, description, year
-    //   this.settingService.setApp(res.app);
-    //   // User information: including name, avatar, email address
-    //   this.settingService.setUser(res.user);
-    //   // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
-    //   this.aclService.setFull(true);
-    //   // Menu data, https://ng-alain.com/theme/menu
-    //   this.menuService.add(res.menu);
-    //   // Can be set page suffix title, https://ng-alain.com/theme/title
-    //   this.titleService.suffix = res.app.name;
-
-    // });
     zip(
-      this.httpClient.get('/tk/systemInfo')
+      this.httpClient.get('/tk/systemInfo'),
+      this.httpClient.get('/us/users/current')
     ).pipe(
-      catchError(([appData]) => {
+      catchError(([appData, userData]) => {
         resolve(null);
-        return [appData];
+        return [appData, userData];
       })
-    ).subscribe(([appData]) => {
+    ).subscribe(([appData, userData]) => {
 
       // Application data
-      const res: any = appData;
+      // const res: any = appData;
       // Application information: including site name, description, year
-      this.settingService.setApp(res.app);
+      this.settingService.setApp(appData);
       // User information: including name, avatar, email address
-      this.settingService.setUser(res.user);
+      this.settingService.setUser(userData);
       // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
       this.aclService.setFull(true);
       // Menu data, https://ng-alain.com/theme/menu
-      this.menuService.add(res.menu);
+      // this.menuService.add(res.menu);
       // Can be set page suffix title, https://ng-alain.com/theme/title
-      this.titleService.suffix = res.app.name;
+      this.titleService.suffix = appData.name;
+      this.menuService.add([
+        {
+          text: '系统监控',
+          link: '/dashboard',
+          icon: { type: 'icon', value: 'rocket' },
+          shortcutRoot: true
+        },
+        {
+          text: '智能开发',
+          group: true,
+          children: [
+            {
+              text: '模块管理',
+              link: '/dashboard',
+              icon: { type: 'icon', value: 'rocket' },
+              shortcutRoot: true
+            },
+            {
+              text: '模型管理',
+              link: '/dashboard',
+              icon: { type: 'icon', value: 'rocket' },
+              shortcutRoot: true
+            },
+            {
+              text: '计划任务',
+              link: '/dashboard',
+              icon: { type: 'icon', value: 'rocket' },
+              shortcutRoot: true
+            },
+            {
+              text: '侦听器',
+              link: '/datamodel/listener',
+              icon: { type: 'icon', value: 'rocket' },
+              shortcutRoot: true
+            }
+          ]
+        },
+        {
+          text: '系统设置',
+          group: true,
+          children: [
+            {
+              text: '菜单管理',
+              link: '/dashboard',
+              icon: { type: 'icon', value: 'rocket' },
+              shortcutRoot: true
+            },
+            {
+              text: '系统配置',
+              link: '/dashboard',
+              icon: { type: 'icon', value: 'rocket' },
+              shortcutRoot: true
+            }
+          ]
+
+        },
+
+        {
+          text: '用户模块',
+          group: true,
+          children: [
+            {
+              text: '用户管理',
+              link: '/usersystem/user-list',
+              icon: { type: 'icon', value: 'appstore' }
+            },
+            {
+              text: '角色管理',
+              link: '/dashboard',
+              icon: { type: 'icon', value: 'appstore' }
+            }
+          ]
+        },
+        {
+          text: '异常页',
+          group: true,
+          children: [
+            {
+              text: '404',
+              link: '/exception/404',
+              icon: { type: 'icon', value: 'appstore' }
+            },
+          ]
+        }
+      ]);
+
+      // this.menuService.add([
+      //   {
+      //     text: '异常页',
+      //     group: true,
+      //     children: [
+      //       {
+      //         text: '404',
+      //         link: '/exception/404',
+      //         icon: { type: 'icon', value: 'appstore' }
+      //       },
+      //     ]
+      //   }
+      // ]);
+
     },
       () => { },
       () => {
