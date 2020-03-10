@@ -40,13 +40,14 @@ export class StartupService {
     }
     zip(
       this.httpClient.get('/tk/systemInfo'),
-      this.httpClient.get('/us/users/current')
+      this.httpClient.get('/us/users/current'),
+      this.httpClient.get('/tk/menus')
     ).pipe(
-      catchError(([appData, userData]) => {
+      catchError(([appData, userData, menuData]) => {
         resolve(null);
-        return [appData, userData];
+        return [appData, userData, menuData];
       })
-    ).subscribe(([appData, userData]) => {
+    ).subscribe(([appData, userData, menuData]) => {
 
       // Application data
       // const res: any = appData;
@@ -60,91 +61,93 @@ export class StartupService {
       // this.menuService.add(res.menu);
       // Can be set page suffix title, https://ng-alain.com/theme/title
       this.titleService.suffix = appData.name;
-      this.menuService.add([
-        {
-          text: '系统监控',
-          link: '/dashboard',
-          icon: { type: 'icon', value: 'rocket' },
-          shortcutRoot: true
-        },
-        {
-          text: '智能开发',
-          group: true,
-          children: [
-            {
-              text: '模块管理',
-              link: '/dashboard',
-              icon: { type: 'icon', value: 'rocket' },
-              shortcutRoot: true
-            },
-            {
-              text: '模型管理',
-              link: '/dashboard',
-              icon: { type: 'icon', value: 'rocket' },
-              shortcutRoot: true
-            },
-            {
-              text: '计划任务',
-              link: '/dashboard',
-              icon: { type: 'icon', value: 'rocket' },
-              shortcutRoot: true
-            },
-            {
-              text: '侦听器',
-              link: '/datamodel/listener',
-              icon: { type: 'icon', value: 'rocket' },
-              shortcutRoot: true
-            }
-          ]
-        },
-        {
-          text: '系统设置',
-          group: true,
-          children: [
-            {
-              text: '菜单管理',
-              link: '/dashboard',
-              icon: { type: 'icon', value: 'rocket' },
-              shortcutRoot: true
-            },
-            {
-              text: '系统配置',
-              link: '/dashboard',
-              icon: { type: 'icon', value: 'rocket' },
-              shortcutRoot: true
-            }
-          ]
+      // this.menuService.add([
+      //   {
+      //     text: '系统监控',
+      //     link: '/dashboard',
+      //     icon: { type: 'icon', value: 'rocket' },
+      //     shortcutRoot: true
+      //   },
+      //   {
+      //     text: '智能开发',
+      //     group: true,
+      //     children: [
+      //       {
+      //         text: '模块管理',
+      //         link: '/dashboard',
+      //         icon: { type: 'icon', value: 'rocket' },
+      //         shortcutRoot: true
+      //       },
+      //       {
+      //         text: '模型管理',
+      //         link: '/dashboard',
+      //         icon: { type: 'icon', value: 'rocket' },
+      //         shortcutRoot: true
+      //       },
+      //       {
+      //         text: '计划任务',
+      //         link: '/dashboard',
+      //         icon: { type: 'icon', value: 'rocket' },
+      //         shortcutRoot: true
+      //       },
+      //       {
+      //         text: '侦听器',
+      //         link: '/datamodel/listener',
+      //         icon: { type: 'icon', value: 'rocket' },
+      //         shortcutRoot: true
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     text: '系统设置',
+      //     group: true,
+      //     children: [
+      //       {
+      //         text: '菜单管理',
+      //         link: '/dashboard',
+      //         icon: { type: 'icon', value: 'rocket' },
+      //         shortcutRoot: true
+      //       },
+      //       {
+      //         text: '系统配置',
+      //         link: '/dashboard',
+      //         icon: { type: 'icon', value: 'rocket' },
+      //         shortcutRoot: true
+      //       }
+      //     ]
 
-        },
+      //   },
 
-        {
-          text: '用户模块',
-          group: true,
-          children: [
-            {
-              text: '用户管理',
-              link: '/usersystem/user-list',
-              icon: { type: 'icon', value: 'appstore' }
-            },
-            {
-              text: '角色管理',
-              link: '/dashboard',
-              icon: { type: 'icon', value: 'appstore' }
-            }
-          ]
-        },
-        {
-          text: '异常页',
-          group: true,
-          children: [
-            {
-              text: '404',
-              link: '/exception/404',
-              icon: { type: 'icon', value: 'appstore' }
-            },
-          ]
-        }
-      ]);
+      //   {
+      //     text: '用户模块',
+      //     group: true,
+      //     children: [
+      //       {
+      //         text: '用户管理',
+      //         link: '/usersystem/user-list',
+      //         icon: { type: 'icon', value: 'appstore' }
+      //       },
+      //       {
+      //         text: '角色管理',
+      //         link: '/dashboard',
+      //         icon: { type: 'icon', value: 'appstore' }
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     text: '异常页',
+      //     group: true,
+      //     children: [
+      //       {
+      //         text: '404',
+      //         link: '/exception/404',
+      //         icon: { type: 'icon', value: 'appstore' }
+      //       },
+      //     ]
+      //   }
+      // ]);
+
+      this.menuService.add(menuData[0].children);
 
       // this.menuService.add([
       //   {

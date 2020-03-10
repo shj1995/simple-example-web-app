@@ -28,6 +28,7 @@ const routes: Routes = [
       // 业务子模块
       { path: 'datamodel', loadChildren: './datamodel/datamodel.module#DatamodelModule' },
       { path: 'usersystem', loadChildren: './usersystem/usersystem.module#UsersystemModule' },
+      { path: 'toolkit', loadChildren: './toolkit/toolkit.module#ToolkitModule' },
       // { path: 'datamodel', loadChildren: () => import('./datamodel/datamodel.module').then(m => m.DatamodelModule) },
     ]
   },
