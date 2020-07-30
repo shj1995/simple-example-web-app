@@ -16,7 +16,8 @@ export class UsersystemUserUserEditComponent implements OnInit {
       username: { type: 'string', title: '用户名' },
       nickname: { type: 'string', title: '昵称' },
       phone: { type: 'string', title: '电话' },
-      email: { type: 'string', title: '邮箱' }
+      email: { type: 'string', title: '邮箱' },
+      locked: { type: 'boolean', title: '锁定' }
     },
     required: ['username', 'nickname'],
   };

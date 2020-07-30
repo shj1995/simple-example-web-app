@@ -14,9 +14,10 @@ export class UsersystemUserUserAddComponent implements OnInit {
   schema: SFSchema = {
     properties: {
       username: { type: 'string', title: '用户名', minLength: 6 },
-      uickname: { type: 'string', title: '昵称' },
+      nickname: { type: 'string', title: '昵称' },
       password: { type: 'string', title: '初始密码', minLength: 6 },
       phone: { type: 'string', title: '电话' },
+      locked: { type: 'boolean', title: '锁定' },
       email: { type: 'string', title: '邮箱' }
     },
     required: ['username', 'uickname', 'password'],

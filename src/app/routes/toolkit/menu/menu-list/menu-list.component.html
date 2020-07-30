@@ -27,12 +27,12 @@
         <ng-template ngFor let-item [ngForOf]="treeUtils?.expandDataCache[data.id]">
           <tr *ngIf="(item.parent&&item.parent.expand)||!(item.parent)">
             <td [nzIndentSize]="item.level*20"
-              [nzShowExpand]="!!item && (!!item.children.length > 0 || item.hasChildren)" [(nzExpand)]="item.expand"
+              [nzShowExpand]="!!item && (!!item.children?.length > 0 || item.hasChildren)" [(nzExpand)]="item.expand"
               (nzExpandChange)="collapse(treeUtils?.expandDataCache[data.id],item,$event)">
               {{item.text}}
             </td>
             <td>{{item.link}}</td>
-            <!-- <td [innerHTML]="enabled | yn"></td> -->
+            <td [innerHTML]="enabled | yn"></td>
 
             <td [innerHTML]="item.disable | yn"></td>
             <td>{{item.hide?'是':'否'}}</td>
