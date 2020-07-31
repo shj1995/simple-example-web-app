@@ -13,9 +13,6 @@ import { UsersystemUserUserRestPasswordComponent } from '../user-rest-password/u
   templateUrl: './user-list.component.html',
 })
 export class UsersystemUserUserListComponent implements OnInit {
-  req: STReq = {
-    reName: { pi: 'pageIndex', ps: 'pageSize', skip: 'skip', limit: 'limit' }
-  };
   res: STRes = {
     reName: { total: 'total', list: 'items' }
   }

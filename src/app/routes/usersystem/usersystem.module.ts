@@ -6,14 +6,20 @@ import { UsersystemUserUserViewComponent } from './user/user-view/user-view.comp
 import { UsersystemUserUserEditComponent } from './user/user-edit/user-edit.component';
 import { UsersystemUserUserAddComponent } from './user/user-add/user-add.component';
 import { UsersystemUserUserRestPasswordComponent } from './user/user-rest-password/user-rest-password.component';
+import { UsersystemRoleComponent } from './role/role.component';
+import { UsersystemRoleEditComponent } from './role/edit/edit.component';
+import { UsersystemRoleViewComponent } from './role/view/view.component';
 
 const COMPONENTS = [
-  UsersystemUserUserListComponent];
+  UsersystemUserUserListComponent,
+  UsersystemRoleComponent];
 const COMPONENTS_NOROUNT = [
   UsersystemUserUserViewComponent,
   UsersystemUserUserEditComponent,
   UsersystemUserUserAddComponent,
-  UsersystemUserUserRestPasswordComponent];
+  UsersystemUserUserRestPasswordComponent,
+  UsersystemRoleEditComponent,
+  UsersystemRoleViewComponent];
 
 @NgModule({
   imports: [

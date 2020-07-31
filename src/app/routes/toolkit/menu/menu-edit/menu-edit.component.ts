@@ -18,7 +18,7 @@ export class ToolkitMenuMenuEditComponent implements OnInit {
   schema: SFSchema = {
     properties: {
       text: { type: 'string', title: '名称' },
-      link: { type: 'string', title: '链接', maxLength: 15 },
+      link: { type: 'string', title: '链接' },
       icon: { type: 'number', title: '图标' },
       roles: {
         type: 'string',
