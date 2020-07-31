@@ -23,6 +23,11 @@ export class UsersystemUserUserListComponent implements OnInit {
         type: 'string',
         title: '用户名',
         default: ''
+      },
+      locked: {
+        type: 'boolean',
+        title: '是否锁定',
+        default: ''
       }
     }
   };

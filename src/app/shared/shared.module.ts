@@ -11,15 +11,20 @@ import { DelonFormModule } from '@delon/form';
 // #region third libs
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
+import { SListComponent } from './components/s-list/s-list.component';
+
 const THIRDMODULES = [
   NgZorroAntdModule,
-  CountdownModule
+  CountdownModule,
 ];
 // #endregion
 
 // #region your componets & directives
-const COMPONENTS = [];
+const COMPONENTS = [
+  SListComponent,
+];
 const DIRECTIVES = [];
+
 // #endregion
 
 @NgModule({
@@ -33,12 +38,12 @@ const DIRECTIVES = [];
     DelonACLModule,
     DelonFormModule,
     // third libs
-    ...THIRDMODULES
+    ...THIRDMODULES,
   ],
   declarations: [
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
   ],
   exports: [
     CommonModule,
@@ -53,7 +58,8 @@ const DIRECTIVES = [];
     ...THIRDMODULES,
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES
-  ]
+    ...DIRECTIVES,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {
+}
