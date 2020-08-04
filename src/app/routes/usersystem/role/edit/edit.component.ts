@@ -40,7 +40,6 @@ export class UsersystemRoleEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger;
     if (this.record.id) {
       this.http.get(`/us/roles/${this.record.id}`).subscribe(res => (this.i = res));
     } else {

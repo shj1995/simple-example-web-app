@@ -1,0 +1,11 @@
+<sf-item-wrap [id]="id" [schema]="schema" [ui]="ui" [showError]="showError" [error]="error" [showTitle]="schema.title">
+  <nz-select
+    [nzMaxTagCount]="3"
+    [nzMaxTagPlaceholder]="tagPlaceHolder"
+    nzMode="multiple"
+    nzPlaceHolder="Please select"
+    [(ngModel)]="listOfSelectedValue"
+  >
+    <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
+  </nz-select>
+</sf-item-wrap>

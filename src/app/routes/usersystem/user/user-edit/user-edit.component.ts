@@ -23,22 +23,38 @@ export class UsersystemUserUserEditComponent implements OnInit {
       locked: { type: 'boolean', title: '锁定' },
       roles: {
         type: 'string',
+        //type: 'array',
+        //items: {
+        //  type: 'object',
+        //    properties: {
+        //      id: { type: 'string' },
+        //  }
+        //},
         title: '角色',
         default: '请选择角色',
         ui: {
           widget: 'select',
+          loadingTip: "loading...",
+          config:{},
           mode: 'multiple',
           asyncData: () => this.http.get(`/us/roles/all`).pipe(map(
             (value: any) => {
               return value.map(v => {
                 return {
-                  label: v.name, value: v.id,
+                  label: v.name, value: v, key: v.id,
                 };
               });
             },
           )),
         } as SFSelectWidgetSchema,
       },
+      remark: {
+        type: 'string',
+        title: '描述',
+        ui: {
+          widget: 'tinymce'
+        }
+      }
     },
     required: ['username', 'nickname'],
   };
@@ -62,10 +78,15 @@ export class UsersystemUserUserEditComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.http.get(`/us/users/view/${this.record.id}`).subscribe(res => (this.i = res));
+    if (this.record.id) {
+      this.http.get(`/us/users/${this.record.id}`).subscribe(res => (this.i = res));
+    } else {
+      this.i = {};
+    }
   }
 
   save(value: any) {
+
     this.http.put(`/us/users`, value).subscribe(res => {
       this.msgSrv.success('保存成功');
       this.modal.close(true);
