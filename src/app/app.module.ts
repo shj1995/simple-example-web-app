@@ -1,18 +1,20 @@
 // tslint:disable: no-duplicate-imports
-import { NgModule, LOCALE_ID, APP_INITIALIZER, Injector } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // #region default language
 // Reference: https://ng-alain.com/docs/i18n
 import { default as ngLang } from '@angular/common/locales/zh';
-import { NZ_I18N, zh_CN as zorroLang } from 'ng-zorro-antd/i18n';
 import { DELON_LOCALE, zh_CN as delonLang } from '@delon/theme';
+import { zhCN as dateLang } from 'date-fns/locale';
+import { NZ_DATE_LOCALE, NZ_I18N, zh_CN as zorroLang } from 'ng-zorro-antd/i18n';
 const LANG = {
   abbr: 'zh',
   ng: ngLang,
   zorro: zorroLang,
+  date: dateLang,
   delon: delonLang,
 };
 // register angular
@@ -21,23 +23,24 @@ registerLocaleData(LANG.ng, LANG.abbr);
 const LANG_PROVIDES = [
   { provide: LOCALE_ID, useValue: LANG.abbr },
   { provide: NZ_I18N, useValue: LANG.zorro },
+  { provide: NZ_DATE_LOCALE, useValue: LANG.date },
   { provide: DELON_LOCALE, useValue: LANG.delon },
 ];
 // #endregion
 
 // #region JSON Schema form (using @delon/form)
-import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
-const FORM_MODULES = [JsonSchemaModule];
+import { JsonSchemaModule } from '@shared';
+const FORM_MODULES = [ JsonSchemaModule ];
 // #endregion
 
 
 // #region Http Interceptors
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { JWTInterceptor } from '@delon/auth';
-import { DefaultInterceptor } from '@core/net/default.interceptor';
+import { DefaultInterceptor } from '@core';
+import { SimpleInterceptor } from '@delon/auth';
 const INTERCEPTOR_PROVIDES = [
-  { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true }
+  { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
+  { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true}
 ];
 // #endregion
 
@@ -47,7 +50,7 @@ const GLOBAL_THIRD_MODULES = [
 // #endregion
 
 // #region Startup Service
-import { StartupService } from '@core/startup/startup.service';
+import { StartupService } from '@core';
 export function StartupServiceFactory(startupService: StartupService) {
   return () => startupService.load();
 }
@@ -62,12 +65,13 @@ const APPINIT_PROVIDES = [
 ];
 // #endregion
 
-import { DelonModule } from './delon.module';
-import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
-import { RoutesModule } from './routes/routes.module';
+import { CoreModule } from './core/core.module';
+import { GlobalConfigModule } from './global-config.module';
 import { LayoutModule } from './layout/layout.module';
+import { RoutesModule } from './routes/routes.module';
+import { SharedModule } from './shared/shared.module';
+import { STWidgetModule } from './shared/st-widget/st-widget.module';
 
 @NgModule({
   declarations: [
@@ -77,11 +81,12 @@ import { LayoutModule } from './layout/layout.module';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    DelonModule.forRoot(),
+    GlobalConfigModule.forRoot(),
     CoreModule,
     SharedModule,
     LayoutModule,
     RoutesModule,
+    STWidgetModule,
     ...FORM_MODULES,
     ...GLOBAL_THIRD_MODULES
   ],

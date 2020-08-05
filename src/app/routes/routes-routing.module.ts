@@ -26,10 +26,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘', titleI18n: 'dashboard' } },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
       // 业务子模块
-      { path: 'datamodel', loadChildren: './datamodel/datamodel.module#DatamodelModule' },
-      { path: 'usersystem', loadChildren: './usersystem/usersystem.module#UsersystemModule' },
-      { path: 'toolkit', loadChildren: './toolkit/toolkit.module#ToolkitModule' },
-      // { path: 'datamodel', loadChildren: () => import('./datamodel/datamodel.module').then(m => m.DatamodelModule) },
+      // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
     ]
   },
   // 全屏布局
@@ -50,16 +47,6 @@ const routes: Routes = [
       { path: 'lock', component: UserLockComponent, data: { title: '锁屏', titleI18n: 'lock' } },
     ]
   },
-  {
-    path: 'datamodel',
-    component: LayoutPassportComponent,
-    children: [
-      { path: 'login', component: UserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
-      { path: 'register', component: UserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
-      { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } },
-      { path: 'lock', component: UserLockComponent, data: { title: '锁屏', titleI18n: 'lock' } },
-    ]
-  },
   // 单页不包裹Layout
   { path: 'callback/:type', component: CallbackComponent },
   { path: '**', redirectTo: 'exception/404' },
@@ -69,11 +56,11 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(
       routes, {
-      useHash: environment.useHash,
-      // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
-      // Pls refer to https://ng-alain.com/components/reuse-tab
-      scrollPositionRestoration: 'top',
-    }
+        useHash: environment.useHash,
+        // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
+        // Pls refer to https://ng-alain.com/components/reuse-tab
+        scrollPositionRestoration: 'top',
+      }
     )],
   exports: [RouterModule],
 })
