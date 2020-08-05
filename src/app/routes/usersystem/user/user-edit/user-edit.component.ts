@@ -15,6 +15,7 @@ export class UsersystemUserUserEditComponent implements OnInit {
   record: any = {};
   i: any;
   schema: SFSchema = {
+
     properties: {
       username: { type: 'string', title: '用户名' },
       nickname: { type: 'string', title: '昵称' },
@@ -23,25 +24,20 @@ export class UsersystemUserUserEditComponent implements OnInit {
       locked: { type: 'boolean', title: '锁定' },
       roles: {
         type: 'string',
-        //type: 'array',
-        //items: {
-        //  type: 'object',
-        //    properties: {
-        //      id: { type: 'string' },
-        //  }
-        //},
         title: '角色',
-        default: '请选择角色',
         ui: {
           widget: 'select',
-          loadingTip: "loading...",
-          config:{},
+          loadingTip: 'loading...',
+          config: {},
           mode: 'multiple',
+          compareWith: (v1, v2) => {
+            return v1 && v2 && v1.id==v2.id;
+          },
           asyncData: () => this.http.get(`/us/roles/all`).pipe(map(
             (value: any) => {
               return value.map(v => {
                 return {
-                  label: v.name, value: v, key: v.id,
+                  label: v.name, value: v, key: v,
                 };
               });
             },
@@ -52,9 +48,9 @@ export class UsersystemUserUserEditComponent implements OnInit {
         type: 'string',
         title: '描述',
         ui: {
-          widget: 'tinymce'
-        }
-      }
+          widget: 'tinymce',
+        },
+      },
     },
     required: ['username', 'nickname'],
   };
@@ -82,15 +78,25 @@ export class UsersystemUserUserEditComponent implements OnInit {
       this.http.get(`/us/users/${this.record.id}`).subscribe(res => (this.i = res));
     } else {
       this.i = {};
+      this.schema.properties = {
+        ...this.schema.properties,
+        password: { type: 'string', title: '初始密码', minLength: 6 },
+      };
     }
   }
 
   save(value: any) {
-
-    this.http.put(`/us/users`, value).subscribe(res => {
-      this.msgSrv.success('保存成功');
-      this.modal.close(true);
-    });
+    if (this.record.id > 0) {
+      this.http.put(`/us/users`, value).subscribe(res => {
+        this.msgSrv.success('保存成功');
+        this.modal.close(true);
+      });
+    } else {
+      this.http.post(`/us/users`, value).subscribe(res => {
+        this.msgSrv.success('保存成功');
+        this.modal.close(true);
+      });
+    }
   }
 
   close() {

@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ControlWidget } from '@delon/form';
 
 @Component({
-  selector: 's-entity-select',
-  templateUrl: './s-entity-select.component.html',
+  selector: 'entity-select',
+  templateUrl: './entity-select.component.html',
   styles: [],
 })
-export class SEntitySelectComponent extends ControlWidget implements OnInit {
-  static readonly KEY = 'tinymce';
+export class EntitySelectComponent extends ControlWidget implements OnInit {
+  static readonly KEY = 'entitySelect';
   listOfOption: string[] = [];
   listOfSelectedValue = ['a10', 'c12'];
 

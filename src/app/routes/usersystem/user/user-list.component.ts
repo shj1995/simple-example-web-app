@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
-import { STColumn, STComponent, STReqReNameType, STReq, STData, STRes } from '@delon/abc/table';
+import { STColumn, STComponent, STRes } from '@delon/abc/table';
 import { SFSchema } from '@delon/form';
-import { UsersystemUserUserViewComponent } from '../user-view/user-view.component';
-import { isTemplateRef, NzMessageService } from 'ng-zorro-antd';
-import { UsersystemUserUserEditComponent } from '../user-edit/user-edit.component';
-import { UsersystemUserUserAddComponent } from '../user-add/user-add.component';
-import { UsersystemUserUserRestPasswordComponent } from '../user-rest-password/user-rest-password.component';
+import { UsersystemUserUserViewComponent } from './user-view/user-view.component';
+import { NzMessageService } from 'ng-zorro-antd';
+import { UsersystemUserUserEditComponent } from './user-edit/user-edit.component';
+import { UsersystemUserUserRestPasswordComponent } from './user-rest-password/user-rest-password.component';
 
 @Component({
   selector: 'app-usersystem-user-user-list',
@@ -77,7 +76,7 @@ export class UsersystemUserUserListComponent implements OnInit {
             this.st.reload();
           },
         },
-        // { text: '编辑', type: 'static', component: FormEditComponent, click: 'reload' },
+        { text: '编辑', type: 'static', component: UsersystemUserUserEditComponent, click: 'reload' },
       ]
     }
   ];
@@ -90,7 +89,7 @@ export class UsersystemUserUserListComponent implements OnInit {
 
   add() {
     this.modal
-      .createStatic(UsersystemUserUserAddComponent, {}, { size: "md" })
+      .createStatic(UsersystemUserUserEditComponent, {}, { size: "md" })
       .subscribe(() => this.st.reload());
   }
 

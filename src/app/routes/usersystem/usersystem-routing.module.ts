@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UsersystemUserUserListComponent } from './user/user-list/user-list.component';
+import { UsersystemUserUserListComponent } from './user/user-list.component';
 import { UsersystemRoleComponent } from './role/role.component';
 
 const routes: Routes = [
