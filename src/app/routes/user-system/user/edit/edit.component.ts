@@ -38,14 +38,7 @@ export class UserSystemUserEditComponent implements OnInit {
             },
           )),
         } as SFSelectWidgetSchema,
-      },
-      remark: {
-        type: 'string',
-        title: '描述',
-        ui: {
-          widget: 'tinymce',
-        },
-      },
+      }
     },
     required: ['username', 'nickname'],
   };
@@ -80,7 +73,7 @@ export class UserSystemUserEditComponent implements OnInit {
       this.i = {};
       this.schema.properties = {
         ...this.schema.properties,
-        password: { type: 'string', title: '初始密码', minLength: 6 },
+        password: { type: 'string', title: '初始密码', minLength: 6 , ui: { type: 'password' }},
       };
     }
   }

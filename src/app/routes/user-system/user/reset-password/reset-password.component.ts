@@ -13,21 +13,19 @@ export class UserSystemResetPasswordComponent implements OnInit {
   i: any;
   schema: SFSchema = {
     properties: {
-      no: { type: 'string', title: '编号' },
-      owner: { type: 'string', title: '姓名', maxLength: 15 },
-      callNo: { type: 'number', title: '调用次数' },
-      href: { type: 'string', title: '链接', format: 'uri' },
-      description: { type: 'string', title: '描述', maxLength: 140 },
+      oldPassword: { type: 'string', title: '原密码', ui: { type: 'password' } },
+      newPassword: { type: 'string', title: '新密码', minLength: 6 , ui: { type: 'password' }},
+      confirmPassword: { type: 'string', title: '确认密码', minLength: 6 , ui: { type: 'password' }},
     },
-    required: ['owner', 'callNo', 'href', 'description'],
+    required: ['oldPassword', 'newPassword', 'confirmPassword'],
   };
   ui: SFUISchema = {
     '*': {
       spanLabelFixed: 100,
-      grid: { span: 12 },
+      grid: { span: 24 },
     },
     $no: {
-      widget: 'text'
+      widget: 'text',
     },
     $href: {
       widget: 'string',
@@ -42,16 +40,16 @@ export class UserSystemResetPasswordComponent implements OnInit {
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
-    if (this.record.id > 0)
-    this.http.get(`/user/${this.record.id}`).subscribe(res => (this.i = res));
   }
 
   save(value: any) {
-    this.http.post(`/user/${this.record.id}`, value).subscribe(res => {
-      this.msgSrv.success('保存成功');
+    value.userId = this.record.id;
+    this.http.put(`/us/users/reset_password`, value).subscribe(res => {
+      this.msgSrv.success('重置成功');
       this.modal.close(true);
     });
   }
