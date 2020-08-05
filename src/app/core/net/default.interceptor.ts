@@ -1,4 +1,12 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponseBase } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpResponse,
+  HttpResponseBase,
+} from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
@@ -7,6 +15,7 @@ import { environment } from '@env/environment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, mergeMap, switchMap, take, tap } from 'rxjs/operators';
+import { NzMessageService } from 'ng-zorro-antd';
 
 const CODEMESSAGE = {
   200: '服务器成功返回请求的数据。',
@@ -141,18 +150,32 @@ export class DefaultInterceptor implements HttpInterceptor {
         //  错误内容：{ status: 1, msg: '非法参数' }
         //  正确内容：{ status: 0, response: {  } }
         // 则以下代码片断可直接适用
+        if (ev instanceof HttpResponse) {
+          const body = ev.body;
+          if (body && body.code !== "1") {
+            this.injector.get(NzMessageService).error(body.message);
+            // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
+            // this.http.get('/').subscribe() 并不会触发
+            return throwError({});
+          } else {
+            // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
+            return of(new HttpResponse(Object.assign(ev, { body: body.data })));
+            // 或者依然保持完整的格式
+            return of(ev);
+          }
+        }
         // if (ev instanceof HttpResponse) {
-        //   const body = ev.body;
-        //   if (body && body.status !== 0) {
-        //     this.injector.get(NzMessageService).error(body.msg);
+        //   const body: any = ev.body;
+        //   if (body && body.code !== "1") {
+        //     this.notification.error(body.message, "");
         //     // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
         //     // this.http.get('/').subscribe() 并不会触发
         //     return throwError({});
         //   } else {
         //     // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
-        //     return of(new HttpResponse(Object.assign(ev, { body: body.response })));
+        //     return of(new HttpResponse({ ...ev, body: body.data }));
         //     // 或者依然保持完整的格式
-        //     return of(ev);
+        //     // return of(ev);
         //   }
         // }
         break;
