@@ -38,9 +38,9 @@ export class StartupService {
       return;
     }
     zip(
-      this.httpClient.get('/tk/systemInfo'),
+      this.httpClient.get('/tk/systemInfo/current'),
       this.httpClient.get('/us/users/current'),
-      this.httpClient.get('/tk/menus')
+      this.httpClient.get('/tk/menus/all')
     ).pipe(
       catchError(([appData, userData, menuData]) => {
         resolve(null);

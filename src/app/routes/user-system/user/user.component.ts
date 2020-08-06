@@ -12,7 +12,7 @@ import { UserSystemResetPasswordComponent } from './reset-password/reset-passwor
   templateUrl: './user.component.html',
 })
 export class UserSystemUserComponent implements OnInit {
-  url = `/us/users`;
+  url = `/us/users/search`;
   searchSchema: SFSchema = {
     properties: {
       username: {

@@ -11,7 +11,7 @@ import { NzMessageService } from 'ng-zorro-antd';
   templateUrl: './role.component.html',
 })
 export class UserSystemRoleComponent implements OnInit {
-  url = `/us/roles`;
+  url = `/us/roles/list`;
   searchSchema: SFSchema = {
     properties: {
       name: {
