@@ -152,8 +152,8 @@ export class DefaultInterceptor implements HttpInterceptor {
         // 则以下代码片断可直接适用
         if (ev instanceof HttpResponse) {
           const body = ev.body;
-          if (body && body.code !== "1") {
-            this.injector.get(NzMessageService).error(body.message);
+          if (body && body.errorCode !== "00000") {
+            this.injector.get(NzMessageService).error(body.toast);
             // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
             // this.http.get('/').subscribe() 并不会触发
             return throwError({});
@@ -161,30 +161,17 @@ export class DefaultInterceptor implements HttpInterceptor {
             // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
             return of(new HttpResponse(Object.assign(ev, { body: body.data })));
             // 或者依然保持完整的格式
-            return of(ev);
+            // return of(ev);
           }
         }
-        // if (ev instanceof HttpResponse) {
-        //   const body: any = ev.body;
-        //   if (body && body.code !== "1") {
-        //     this.notification.error(body.message, "");
-        //     // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
-        //     // this.http.get('/').subscribe() 并不会触发
-        //     return throwError({});
-        //   } else {
-        //     // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
-        //     return of(new HttpResponse({ ...ev, body: body.data }));
-        //     // 或者依然保持完整的格式
-        //     // return of(ev);
-        //   }
-        // }
         break;
       case 401:
         return this.tryRefreshToken(ev, req, next);
       case 403:
       case 404:
+        this.injector.get(NzMessageService).error("请求异常");
       case 500:
-        this.goTo(`/exception/${ev.status}`);
+        this.injector.get(NzMessageService).error("服务器异常");
         break;
       default:
         if (ev instanceof HttpErrorResponse) {
