@@ -21,7 +21,7 @@ export class DataModelModuleEditComponent implements OnInit {
       description: { type: 'string', title: '描述', maxLength: 15 },
       system: { type: 'boolean', title: '系统模块' },
     },
-    required: ['owner', 'callNo', 'href', 'description'],
+    required: ['name'],
   };
   ui: SFUISchema = {
     '*': {

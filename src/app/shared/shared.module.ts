@@ -8,6 +8,7 @@ import { DelonFormModule } from '@delon/form';
 
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
+import { ReuseTabModule } from '@delon/abc';
 
 // #region third libs
 
@@ -31,6 +32,7 @@ const DIRECTIVES = [];
     AlainThemeModule.forChild(),
     DelonACLModule,
     DelonFormModule,
+    ReuseTabModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs
@@ -49,6 +51,7 @@ const DIRECTIVES = [];
     AlainThemeModule,
     DelonACLModule,
     DelonFormModule,
+    ReuseTabModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs

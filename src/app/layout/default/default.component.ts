@@ -20,6 +20,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SettingDrawerComponent } from './setting-drawer/setting-drawer.component';
+import { ReuseTabService } from '@delon/abc';
 
 @Component({
   selector: 'layout-default',
@@ -39,6 +40,7 @@ export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy 
     private el: ElementRef,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private doc: any,
+    public reuseTabService: ReuseTabService
   ) {
     // scroll to top in change page
     router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((evt) => {
@@ -89,6 +91,7 @@ export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy 
     const { settings, unsubscribe$ } = this;
     settings.notify.pipe(takeUntil(unsubscribe$)).subscribe(() => this.setClass());
     this.setClass();
+    this.reuseTabService.refresh();
   }
 
   ngOnDestroy() {
