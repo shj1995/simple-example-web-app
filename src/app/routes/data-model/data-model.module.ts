@@ -7,10 +7,12 @@ import { DataModelModuleViewComponent } from './module/view/view.component';
 import { DataModelTypeComponent } from './type/type.component';
 import { DataModelTypeEditComponent } from './type/edit/edit.component';
 import { DataModelTypeViewComponent } from './type/view/view.component';
+import { DataModelTypeDesignComponent } from './type/design/design.component';
 
 const COMPONENTS = [
   DataModelModuleComponent,
-  DataModelTypeComponent];
+  DataModelTypeComponent,
+  DataModelTypeDesignComponent];
 const COMPONENTS_NOROUNT = [
   DataModelModuleEditComponent,
   DataModelModuleViewComponent,

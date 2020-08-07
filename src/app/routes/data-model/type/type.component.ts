@@ -4,6 +4,7 @@ import { STColumn, STComponent } from '@delon/abc/st';
 import { DataModelTypeEditComponent } from './edit/edit.component';
 import { NzMessageService } from 'ng-zorro-antd';
 import { DataModelTypeViewComponent } from './view/view.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-data-model-type',
@@ -25,7 +26,7 @@ export class DataModelTypeComponent implements OnInit {
           type: 'modal',
           modal: {
             size: 'md',
-            component: DataModelTypeViewComponent
+            component: DataModelTypeViewComponent,
           },
           click: (_record, modal) => this.message.success(`重新加载页面，回传值：${JSON.stringify(modal)}`),
         },
@@ -35,23 +36,40 @@ export class DataModelTypeComponent implements OnInit {
           type: 'modal',
           modal: {
             component: DataModelTypeEditComponent,
-            size: 'md'
+            size: 'md',
           },
           click: (_record, modal) => {
             this.st.reload();
-          }
+          },
         },
-      ]
-    }
+        {
+          text: '模型设计',
+          icon: 'edit',
+          type: 'link',
+
+          click: (_record, modal) => {
+            this.router.navigate(['dm/type/design', { id: _record.id }]).then(r =>{
+              this.st.reload();
+            });
+          },
+        },
+      ],
+    },
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper, private message: NzMessageService) { }
+  constructor(private http: _HttpClient,
+              private modal: ModalHelper,
+              private message: NzMessageService,
+              private router: Router,
+  ) {
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   add() {
     this.modal
-      .createStatic(DataModelTypeEditComponent, { i: { } },{size:'md'})
+      .createStatic(DataModelTypeEditComponent, { i: {} }, { size: 'md' })
       .subscribe(() => this.st.reload());
   }
 
