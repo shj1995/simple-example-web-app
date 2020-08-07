@@ -12,9 +12,6 @@ export class DataModelModuleEditComponent implements OnInit {
   record: any = {};
   i: any;
 
-// { title: '名称', index: 'name' },
-// { title: '描述', index: 'description' },
-// { title: '系统模块', type: 'yn', index: 'system' },
   schema: SFSchema = {
     properties: {
       name: { type: 'string', title: '名称' },
