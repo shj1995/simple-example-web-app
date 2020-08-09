@@ -133,6 +133,7 @@ export class DefaultInterceptor implements HttpInterceptor {
 
   private toLogin(): void {
     this.notification.error(`未登录或登录已过期，请重新登录。`, ``);
+    this.tokenSrv.clear();
     this.goTo('/passport/login');
   }
 
@@ -152,7 +153,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         // 则以下代码片断可直接适用
         if (ev instanceof HttpResponse) {
           const body = ev.body;
-          if (body && body.errorCode !== "00000") {
+          if (body && body.errorCode !== '00000') {
             this.injector.get(NzMessageService).error(body.toast);
             // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
             // this.http.get('/').subscribe() 并不会触发
@@ -166,12 +167,13 @@ export class DefaultInterceptor implements HttpInterceptor {
         }
         break;
       case 401:
-        return this.tryRefreshToken(ev, req, next);
+        this.toLogin();
+        break;
       case 403:
       case 404:
-        this.injector.get(NzMessageService).error("请求异常");
+        this.injector.get(NzMessageService).error('请求异常');
       case 500:
-        this.injector.get(NzMessageService).error("服务器异常");
+        this.injector.get(NzMessageService).error('服务器异常');
         break;
       default:
         if (ev instanceof HttpErrorResponse) {

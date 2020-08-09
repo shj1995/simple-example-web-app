@@ -4,7 +4,7 @@ import { STColumn, STComponent } from '@delon/abc/st';
 import { DataModelTypeEditComponent } from './edit/edit.component';
 import { NzMessageService } from 'ng-zorro-antd';
 import { DataModelTypeViewComponent } from './view/view.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-data-model-type',
@@ -14,7 +14,9 @@ export class DataModelTypeComponent implements OnInit {
   url = `/dm/types/list`;
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
-    { title: '名称', index: 'name' },
+    { title: '模块', index: 'module.name' },
+    { title: '表名', index: 'name' },
+    { title: '显示名称', index: 'displayAs' },
     { title: '描述', index: 'description' },
     { title: '系统模块', type: 'yn', index: 'system' },
     {
@@ -48,7 +50,7 @@ export class DataModelTypeComponent implements OnInit {
           type: 'link',
 
           click: (_record, modal) => {
-            this.router.navigate(['dm/type/design', { id: _record.id }]).then(r =>{
+            this.router.navigate([`dm/type/design/${_record.id}`, { type: JSON.stringify(_record) }]).then((r) => {
               this.st.reload();
             });
           },
@@ -57,20 +59,11 @@ export class DataModelTypeComponent implements OnInit {
     },
   ];
 
-  constructor(private http: _HttpClient,
-              private modal: ModalHelper,
-              private message: NzMessageService,
-              private router: Router,
-  ) {
-  }
+  constructor(private http: _HttpClient, private modal: ModalHelper, private message: NzMessageService, private router: Router) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   add() {
-    this.modal
-      .createStatic(DataModelTypeEditComponent, { i: {} }, { size: 'md' })
-      .subscribe(() => this.st.reload());
+    this.modal.createStatic(DataModelTypeEditComponent, { i: {} }, { size: 'md' }).subscribe(() => this.st.reload());
   }
-
 }

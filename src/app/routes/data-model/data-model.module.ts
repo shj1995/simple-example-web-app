@@ -8,25 +8,22 @@ import { DataModelTypeComponent } from './type/type.component';
 import { DataModelTypeEditComponent } from './type/edit/edit.component';
 import { DataModelTypeViewComponent } from './type/view/view.component';
 import { DataModelTypeDesignComponent } from './type/design/design.component';
+import { DataModelFieldComponent } from './type/design/field/field.component';
+import { DataModelFieldEditComponent } from './type/design/field/edit/edit.component';
+import { DataModelFieldViewComponent } from './type/design/field/view/view.component';
 
-const COMPONENTS = [
-  DataModelModuleComponent,
-  DataModelTypeComponent,
-  DataModelTypeDesignComponent];
+const COMPONENTS = [DataModelModuleComponent, DataModelTypeComponent, DataModelTypeDesignComponent, DataModelFieldComponent];
 const COMPONENTS_NOROUNT = [
   DataModelModuleEditComponent,
   DataModelModuleViewComponent,
   DataModelTypeEditComponent,
-  DataModelTypeViewComponent];
+  DataModelTypeViewComponent,
+  DataModelFieldEditComponent,
+  DataModelFieldViewComponent,
+];
 
 @NgModule({
-  imports: [
-    SharedModule,
-    DataModelRoutingModule
-  ],
-  declarations: [
-    ...COMPONENTS,
-    ...COMPONENTS_NOROUNT
-  ],
+  imports: [SharedModule, DataModelRoutingModule],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
 })
-export class DataModelModule { }
+export class DataModelModule {}
