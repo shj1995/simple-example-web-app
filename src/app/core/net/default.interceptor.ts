@@ -64,6 +64,9 @@ export class DefaultInterceptor implements HttpInterceptor {
   }
 
   private checkStatus(ev: HttpResponseBase) {
+    if (!ev) {
+      return;
+    }
     if ((ev.status >= 200 && ev.status < 300) || ev.status === 401) {
       return;
     }
@@ -132,6 +135,7 @@ export class DefaultInterceptor implements HttpInterceptor {
   }
 
   private toLogin(): void {
+    console.log(this.notification);
     this.notification.error(`未登录或登录已过期，请重新登录。`, ``);
     this.tokenSrv.clear();
     this.goTo('/passport/login');
@@ -142,7 +146,9 @@ export class DefaultInterceptor implements HttpInterceptor {
     if (ev.status > 0) {
       this.http.end();
     }
-    this.checkStatus(ev);
+    if (ev instanceof HttpResponse) {
+      this.checkStatus(ev);
+    }
     // 业务处理：一些通用操作
     switch (ev.status) {
       case 200:
@@ -172,6 +178,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       case 403:
       case 404:
         this.injector.get(NzMessageService).error('请求异常');
+        break;
       case 500:
         this.injector.get(NzMessageService).error('服务器异常');
         break;

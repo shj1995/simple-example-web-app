@@ -13,7 +13,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzMessageModule, NzMessageServiceModule } from 'ng-zorro-antd/message';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
@@ -26,7 +26,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzBreadCrumbModule } from 'ng-zorro-antd';
+import { NzBreadCrumbModule, NzNotificationServiceModule } from 'ng-zorro-antd';
 
 export const SHARED_ZORRO_MODULES = [
   NzFormModule,
@@ -58,4 +58,6 @@ export const SHARED_ZORRO_MODULES = [
   NzCheckboxModule,
   NzAutocompleteModule,
   NzBreadCrumbModule,
+  NzMessageServiceModule,
+  NzNotificationServiceModule,
 ];

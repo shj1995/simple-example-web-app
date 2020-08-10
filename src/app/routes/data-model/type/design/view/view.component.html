@@ -1,0 +1,20 @@
+<nz-card>
+  <div class="mb-md">
+    <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="menu">新建<i nz-icon nzType="down"></i></button>
+    <nz-dropdown-menu nzType="primary" #menu="nzDropdownMenu">
+      <ul nz-menu nzType="primary">
+        <li nz-menu-item nzType="primary">
+          <a (click)="add()">详细视图</a>
+        </li>
+        <li nz-menu-item>
+          <a>列表视图</a>
+        </li>
+        <li nz-menu-item>
+          <a>查询视图</a>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <button (click)="st.reload()" nz-button nzType="primary">刷新</button>
+  </div>
+  <st #st [data]="url" [columns]="columns"></st>
+</nz-card>

@@ -1,9 +1,9 @@
-<page-header [title]="`模块设计(`+type.name" [breadcrumb]="breadcrumb">
+<page-header [title]="'模型设计(' + type.name + ')'" [breadcrumb]="breadcrumb">
   <ng-template #breadcrumb>
     <nz-breadcrumb>
-      <nz-breadcrumb-item><a>一级菜单</a></nz-breadcrumb-item>
-      <nz-breadcrumb-item><a>二级菜单</a></nz-breadcrumb-item>
-      <nz-breadcrumb-item><a>三级菜单</a></nz-breadcrumb-item>
+      <nz-breadcrumb-item><a routerLink="/dashboard">首页</a></nz-breadcrumb-item>
+      <nz-breadcrumb-item>智能开发</nz-breadcrumb-item>
+      <nz-breadcrumb-item><a routerLink="/dm/type">模型管理</a></nz-breadcrumb-item>
     </nz-breadcrumb>
   </ng-template>
 </page-header>
@@ -13,8 +13,14 @@
     <nz-tab nzTitle="字段设置">
       <app-data-model-field [typeId]="type.id"></app-data-model-field>
     </nz-tab>
-    <nz-tab nzTitle="视图设置"></nz-tab>
-    <nz-tab nzTitle="业务设置"></nz-tab>
-    <nz-tab nzTitle="动作设置"></nz-tab>
+    <nz-tab nzTitle="视图设置">
+      <app-data-model-view [typeId]="type.id"></app-data-model-view>
+    </nz-tab>
+    <nz-tab nzTitle="业务设置">
+      <app-data-model-business [typeId]="type.id"></app-data-model-business>
+    </nz-tab>
+    <nz-tab nzTitle="动作设置">
+      <app-data-model-action [typeId]="type.id"></app-data-model-action>
+    </nz-tab>
   </nz-tabset>
 </nz-card>
