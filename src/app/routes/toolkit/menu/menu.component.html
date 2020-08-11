@@ -1,0 +1,56 @@
+<page-header [action]="phActionTpl">
+  <ng-template #phActionTpl>
+    <button (click)="add()" nz-button nzType="primary">新建</button>
+  </ng-template>
+</page-header>
+<nz-card>
+
+  <div class="mb-md">
+    <button (click)="add()" nz-button nzType="primary">
+      <i nz-icon nzType="plus" nzTheme="outline"></i>
+      添加根菜单
+    </button>
+  </div>
+
+  <nz-table #expandTable [nzData]="data" nzTableLayout="fixed">
+    <thead>
+    <tr>
+      <th nzWidth="20%">名称</th>
+      <th>地址</th>
+      <th>启用</th>
+      <th>隐藏</th>
+      <th>禁用</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let data of expandTable.data">
+      <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
+        <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
+          <td
+            [nzIndentSize]="item.level! * 20"
+            [nzShowExpand]="!!item.children"
+            [(nzExpand)]="item.expand"
+            (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
+          >
+            {{ item.text }}
+          </td>
+          <td>{{item.link}}</td>
+          <td [innerHTML]="item.enabled | yn"></td>
+          <td [innerHTML]="item.disable | yn"></td>
+          <td [innerHTML]="item.hide | yn"></td>
+          <td>
+            <a (click)="addChildren(item.id)">添加子菜单</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="edit(item.id)">编辑</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a nz-popconfirm nzPopconfirmTitle="是否确认删除?" nzPopconfirmPlacement="bottom"
+               (nzOnConfirm)="delete(item)">删除</a>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+    </tbody>
+  </nz-table>
+
+</nz-card>

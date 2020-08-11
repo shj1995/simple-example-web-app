@@ -1,6 +1,9 @@
 export enum FieldType {
-  String = 0,
-  DateType = 1,
-  DateTimeType = 2,
-  CategoryFieldType = 4,
+  String,
+  Integer ,
+  Double ,
+  Boolean ,
+  Date ,
+  DateTime ,
+  Category ,
 }

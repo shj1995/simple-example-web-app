@@ -18,7 +18,7 @@ const LANG = {
   delon: delonLang,
 };
 // register angular
-import { registerLocaleData } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy, PathLocationStrategy, registerLocaleData } from '@angular/common';
 registerLocaleData(LANG.ng, LANG.abbr);
 const LANG_PROVIDES = [
   { provide: LOCALE_ID, useValue: LANG.abbr },
@@ -87,7 +87,9 @@ import { NzMessageService, NzNotificationService } from 'ng-zorro-antd';
     ...FORM_MODULES,
     ...GLOBAL_THIRD_MODULES,
   ],
-  providers: [...LANG_PROVIDES, ...INTERCEPTOR_PROVIDES, ...APPINIT_PROVIDES],
+  providers: [...LANG_PROVIDES, ...INTERCEPTOR_PROVIDES, ...APPINIT_PROVIDES,{
+    provide:LocationStrategy,useClass: PathLocationStrategy
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

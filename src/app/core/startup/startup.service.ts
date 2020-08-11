@@ -28,6 +28,7 @@ export class StartupService {
     private httpClient: HttpClient,
     private injector: Injector,
     private reuseTabService: ReuseTabService,
+    private router: Router
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
@@ -39,7 +40,15 @@ export class StartupService {
       resolve({});
       return;
     }
-    zip(this.httpClient.get('/tk/systemInfo/current'), this.httpClient.get('/us/users/current'), this.httpClient.get('/tk/menus/all'))
+    console.log(this.router.url);
+    console.log(window.location.href);
+    console.log(window.location.pathname);
+    let menusUrl = '/tk/menus/workbench';
+    if(window.location.pathname.startsWith("/admin")){
+      menusUrl = '/tk/menus/admin';
+    }
+
+    zip(this.httpClient.get('/tk/systemInfo/current'), this.httpClient.get('/us/users/current'), this.httpClient.get(menusUrl))
       .pipe(
         catchError(([appData, userData, menuData]) => {
           resolve(null);

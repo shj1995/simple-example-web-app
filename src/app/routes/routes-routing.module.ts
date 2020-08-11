@@ -15,10 +15,22 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 // single pages
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
+import { WorkbenchIndexComponent } from './workbench/index/index.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: '', redirectTo: 'workbench', pathMatch: 'full',
+  },
+  {
+    path: 'workbench',
+    component: LayoutDefaultComponent,
+    canActivate: [SimpleGuard],
+    children: [
+      { path: '', loadChildren: () => import('./workbench/workbench.module').then(m => m.WorkbenchModule) },
+    ],
+  },
+  {
+    path: 'admin',
     component: LayoutDefaultComponent,
     canActivate: [SimpleGuard],
     children: [
@@ -28,8 +40,9 @@ const routes: Routes = [
       // 业务子模块
       { path: 'us', loadChildren: () => import('./user-system/user-system.module').then(m => m.UserSystemModule) },
       { path: 'dm', loadChildren: () => import('./data-model/data-model.module').then(m => m.DataModelModule) },
+      { path: 'tk', loadChildren: () => import('./toolkit/toolkit.module').then(m => m.ToolkitModule) },
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
-    ]
+    ],
   },
   // 全屏布局
   // {
@@ -45,12 +58,17 @@ const routes: Routes = [
     children: [
       { path: 'login', component: UserLoginComponent, data: { title: '登录', titleI18n: 'pro-login' } },
       { path: 'register', component: UserRegisterComponent, data: { title: '注册', titleI18n: 'pro-register' } },
-      { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果', titleI18n: 'pro-register-result' } },
+      {
+        path: 'register-result',
+        component: UserRegisterResultComponent,
+        data: { title: '注册结果', titleI18n: 'pro-register-result' },
+      },
       { path: 'lock', component: UserLockComponent, data: { title: '锁屏', titleI18n: 'lock' } },
-    ]
+    ],
   },
   // 单页不包裹Layout
   { path: 'callback/:type', component: CallbackComponent },
+  // 单页不包裹Layout
   { path: '**', redirectTo: 'exception/404' },
 ];
 
@@ -62,8 +80,9 @@ const routes: Routes = [
         // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
         // Pls refer to https://ng-alain.com/components/reuse-tab
         scrollPositionRestoration: 'top',
-      }
+      },
     )],
   exports: [RouterModule],
 })
-export class RouteRoutingModule { }
+export class RouteRoutingModule {
+}
