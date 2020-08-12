@@ -141,5 +141,14 @@ export class ToolkitMenuComponent implements OnInit {
         this.mapOfExpandedData[id].push(result);
       });
   }
+  delete(id: string){
+
+  }
+  edit(id: string){
+
+  }
+  add(){
+
+  }
 
 }
