@@ -1,13 +1,15 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent } from '@delon/abc/st';
-import { DataModelFieldEditComponent } from './edit/edit.component';
+import { SFSchema } from '@delon/form';
+import { DataModelFieldEditComponent } from '../field/edit/edit.component';
+import { DataModelPageEditComponent } from './edit/edit.component';
 
 @Component({
-  selector: 'app-data-model-field',
-  templateUrl: './field.component.html',
+  selector: 'app-data-model-page',
+  templateUrl: './page.component.html',
 })
-export class DataModelFieldComponent implements OnInit {
+export class DataModelPageComponent implements OnInit {
   @Input()
   typeId;
   url = `/dm/types/${this.typeId}/fields`;
@@ -45,6 +47,7 @@ export class DataModelFieldComponent implements OnInit {
   }
 
   add() {
-    this.modal.createStatic(DataModelFieldEditComponent, { i: { typeId: this.typeId } }, { size: 'md' }).subscribe(() => this.st.reload());
+    this.modal.createStatic(DataModelPageEditComponent, { i: { typeId: this.typeId } }, { size: 'xl' }).subscribe(() => this.st.reload());
   }
+
 }

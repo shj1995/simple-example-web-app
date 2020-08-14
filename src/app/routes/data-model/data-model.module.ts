@@ -20,6 +20,12 @@ import { DataModelBusinessViewComponent } from './type/design/business/view/view
 import { DataModelActionComponent } from './type/design/action/action.component';
 import { DataModelActionEditComponent } from './type/design/action/edit/edit.component';
 import { DataModelActionViewComponent } from './type/design/action/view/view.component';
+import { DataModelPageComponent } from './type/design/page/page.component';
+import { DataModelPageEditComponent } from './type/design/page/edit/edit.component';
+import { DataModelPageViewComponent } from './type/design/page/view/view.component';
+import { DataModelInterfaceComponent } from './type/design/interface/interface.component';
+import { DataModelInterfaceEditComponent } from './type/design/interface/edit/edit.component';
+import { DataModelInterfaceViewComponent } from './type/design/interface/view/view.component';
 
 const COMPONENTS = [
   DataModelModuleComponent,
@@ -29,6 +35,8 @@ const COMPONENTS = [
   DataModelViewComponent,
   DataModelBusinessComponent,
   DataModelActionComponent,
+  DataModelPageComponent,
+  DataModelInterfaceComponent
 ];
 const COMPONENTS_NOROUNT = [
   DataModelModuleEditComponent,
@@ -43,6 +51,10 @@ const COMPONENTS_NOROUNT = [
   DataModelBusinessViewComponent,
   DataModelActionEditComponent,
   DataModelActionViewComponent,
+  DataModelPageEditComponent,
+  DataModelPageViewComponent,
+  DataModelInterfaceEditComponent,
+  DataModelInterfaceViewComponent
 ];
 
 @NgModule({

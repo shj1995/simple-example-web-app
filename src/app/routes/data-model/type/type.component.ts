@@ -50,7 +50,11 @@ export class DataModelTypeComponent implements OnInit {
           type: 'link',
 
           click: (_record, modal) => {
-            this.router.navigate([`dm/type/design/${_record.id}`, { type: JSON.stringify(_record) }]).then((r) => {
+            const _type = {
+              id:_record.id,
+              name:_record.name
+            };
+            this.router.navigate([`admin/dm/type/design/${_record.id}`, { type: JSON.stringify(_type) }]).then((r) => {
               this.st.reload();
             });
           },

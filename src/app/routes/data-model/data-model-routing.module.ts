@@ -7,6 +7,8 @@ import { DataModelFieldComponent } from './type/design/field/field.component';
 import { DataModelViewComponent } from './type/design/view/view.component';
 import { DataModelBusinessComponent } from './type/design/business/business.component';
 import { DataModelActionComponent } from './type/design/action/action.component';
+import { DataModelPageComponent } from './type/design/page/page.component';
+import { DataModelInterfaceComponent } from './type/design/interface/interface.component';
 
 const routes: Routes = [
   { path: 'module', component: DataModelModuleComponent },
@@ -15,7 +17,7 @@ const routes: Routes = [
     path: 'type',
     children: [
       { path: '', component: DataModelTypeComponent },
-      { path: 'design/:id', data: { title: '模型设计' }, component: DataModelTypeDesignComponent },
+      { path: 'design/:id', data: { title: '模型设计' }, component: DataModelTypeDesignComponent }
     ],
   },
   ,
@@ -24,7 +26,8 @@ const routes: Routes = [
   { path: 'view', component: DataModelViewComponent },
   { path: 'business', component: DataModelBusinessComponent },
   { path: 'action', component: DataModelActionComponent },
-];
+  { path: 'page', component: DataModelPageComponent },
+  { path: 'interface', component: DataModelInterfaceComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
