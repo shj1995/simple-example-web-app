@@ -1,0 +1,65 @@
+<page-header [title]="'模型设计(' + type.name + ')'" [breadcrumb]="breadcrumb">
+  <ng-template #breadcrumb>
+    <nz-breadcrumb>
+      <nz-breadcrumb-item><a routerLink="/dashboard">首页</a></nz-breadcrumb-item>
+      <nz-breadcrumb-item>智能开发</nz-breadcrumb-item>
+      <nz-breadcrumb-item><a routerLink="/admin/dm/type">模型管理</a></nz-breadcrumb-item>
+      <nz-breadcrumb-item><a routerLink="/admin/dm/type">模型管设计</a></nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </ng-template>
+</page-header>
+<div nz-row nzGutter="32">
+  <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="4">
+    <nz-card>
+      <nz-radio-group [(ngModel)]="page.type" nzButtonStyle="solid">
+        <label nz-radio-button nzValue="A">列表页面</label><br/>
+        <label nz-radio-button nzValue="B">详情页面</label><br/>
+        <label nz-radio-button nzValue="C">查询页面</label><br/>
+      </nz-radio-group>
+    </nz-card>
+    <nz-card>
+      字段
+    </nz-card>
+  </nz-col>
+  <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="16">
+
+
+    <nz-card>
+
+      <div class="example-container">
+        <h2>To do</h2>
+        <div
+          cdkDropList
+          #todoList="cdkDropList"
+          [cdkDropListData]="todo"
+          [cdkDropListConnectedTo]="[doneList]"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)">
+
+          <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+
+        </div>
+      </div>
+
+      <div class="example-container">
+        <h2>Done</h2>
+
+        <div
+          cdkDropList
+          #doneList="cdkDropList"
+          [cdkDropListData]="done"
+          [cdkDropListConnectedTo]="[todoList]"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+        </div>
+      </div>
+    </nz-card>
+  </nz-col>
+  <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="4" class="widget-properties-wrapper">
+
+    <nz-card>
+      组件属性
+    </nz-card>
+  </nz-col>
+</div>

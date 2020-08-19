@@ -1,9 +1,11 @@
 export enum FieldType {
-  String,
-  Integer ,
-  Double ,
-  Boolean ,
-  Date ,
-  DateTime ,
-  Category ,
+
+  STRING = 'STRING',
+  INTEGER = 'INTEGER',
+  DOUBLE = 'DOUBLE',
+  BOOLEAN = 'BOOLEAN',
+  DATE = 'DATE',
+  DATETIME = 'DATETIME',
+  CATEGORY = 'CATEGORY',
+
 }

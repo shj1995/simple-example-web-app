@@ -4,6 +4,7 @@ import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { DataModelFieldEditComponent } from '../field/edit/edit.component';
 import { DataModelPageEditComponent } from './edit/edit.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-data-model-page',
@@ -33,21 +34,33 @@ export class DataModelPageComponent implements OnInit {
             size: 'md',
           },
           click: (_record, modal) => {
-            this.st.reload();
+            const _type = {
+              id:_record.id,
+              name:_record.name
+            };
+            this.router.navigate([`admin/dm/type/${_record.id}/design/page/edit`, { type: JSON.stringify(_type) }]).then((r) => {
+              this.st.reload();
+            });
           },
         },
       ],
     },
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper) {}
+  constructor(private http: _HttpClient,
+              private modal: ModalHelper,
+              private router: Router) {}
 
   ngOnInit() {
-    this.url = `/dm/types/${this.typeId}/fields`;
+    // this.url = `/admin/dm/types/${this.typeId}/fields`;
   }
 
   add() {
-    this.modal.createStatic(DataModelPageEditComponent, { i: { typeId: this.typeId } }, { size: 'xl' }).subscribe(() => this.st.reload());
+
+    this.router.navigate([`admin/dm/page/design`]).then((r) => {
+      this.st.reload();
+    });
+    // this.modal.createStatic(DataModelPageEditComponent, { i: { typeId: this.typeId } }, { size: "" }).subscribe(() => this.st.reload());
   }
 
 }
