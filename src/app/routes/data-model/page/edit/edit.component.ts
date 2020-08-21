@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Page, Type } from '@core';
+import { Page, SearchPage, Type } from '@core';
 
 @Component({
   selector: 'app-data-model-page-edit',
@@ -10,7 +9,7 @@ import { Page, Type } from '@core';
 })
 export class DataModelPageEditComponent implements OnInit {
   type: Type = new Type();
-  page: Page = new Page();
+  page: SearchPage = new SearchPage();
 
   constructor() {
   }
@@ -24,18 +23,19 @@ export class DataModelPageEditComponent implements OnInit {
   }
 
   todo = [
-    'Get to work',
-    'Pick up groceries',
-    'Go home',
-    'Fall asleep',
+    '字段1',
+    '字段2',
+    '字段3',
+    '字段4',
+    '字段5',
   ];
 
   done = [
-    'Get up',
-    'Brush teeth',
-    'Take a shower',
-    'Check e-mail',
-    'Walk dog',
+    '字段6',
+    '字段7',
+    '字段8',
+    '字段9',
+    '字段10',
   ];
 
   drop(event: CdkDragDrop<string[]>) {

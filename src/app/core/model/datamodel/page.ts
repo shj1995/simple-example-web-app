@@ -1,14 +1,14 @@
-import { Field, Page, PageType, QueryOperator } from '@core';
+import { PageType } from '../../enuns/page-type.enum';
 
-export class SearchPage {
+export abstract class Page {
   private _id: string;
   private _name: string;
   private _title: string;
   private _displayAs: string;
   private _type:PageType;
-  private queryConditionList: Array<QueryCondition>;
-  private tableFieldList: Array<TableField>;
-  constructor() {
+
+  protected constructor() {
+
   }
 
   get id(): string {
@@ -46,18 +46,4 @@ export class SearchPage {
   set type(value: PageType) {
     this._type = value;
   }
-}
-
-class QueryCondition {
-  private field: Field;
-  private operator: QueryOperator;
-}
-
-class TableField {
-  private field: Field;
-  private displayAs: string;
-  private supportSort: boolean;
-  private customSchema: boolean;
-
-  private uiSchema: JSON;
 }

@@ -19,12 +19,7 @@
     </nz-card>
     <nz-card>
       字段
-    </nz-card>
-  </nz-col>
-  <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="16">
 
-
-    <nz-card>
 
       <div class="example-container">
         <h2>To do</h2>
@@ -40,20 +35,39 @@
 
         </div>
       </div>
+    </nz-card>
+  </nz-col>
+  <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="16">
 
-      <div class="example-container">
-        <h2>Done</h2>
 
-        <div
+    <nz-card>
+      <nz-table nzBordered  [nzData]="">
+        <thead>
+        <tr
           cdkDropList
           #doneList="cdkDropList"
           [cdkDropListData]="done"
+          cdkDropListOrientation="horizontal"
           [cdkDropListConnectedTo]="[todoList]"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)">
-          <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
-        </div>
-      </div>
+          (cdkDropListDropped)="drop($event)"
+        >
+          <th>ID</th>
+          <th class="example-box" *ngFor="let item of done" cdkDrag class="cdk-drag-animating">
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+
+          {{item}}
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>0</td>
+          <td *ngFor="let item of done"
+          ></td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <br/>
     </nz-card>
   </nz-col>
   <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="4" class="widget-properties-wrapper">
