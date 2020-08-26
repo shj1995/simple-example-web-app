@@ -9,71 +9,46 @@
   </ng-template>
 </page-header>
 <div nz-row nzGutter="32">
-  <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="4">
+  <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="24">
     <nz-card>
-      <nz-radio-group [(ngModel)]="page.type" nzButtonStyle="solid">
-        <label nz-radio-button nzValue="A">列表页面</label><br/>
-        <label nz-radio-button nzValue="B">详情页面</label><br/>
-        <label nz-radio-button nzValue="C">查询页面</label><br/>
-      </nz-radio-group>
-    </nz-card>
-    <nz-card>
-      字段
-
-
-      <div class="example-container">
-        <h2>To do</h2>
-        <div
-          cdkDropList
-          #todoList="cdkDropList"
-          [cdkDropListData]="todo"
-          [cdkDropListConnectedTo]="[doneList]"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)">
-
-          <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
-
-        </div>
-      </div>
+      <form nz-form #f="ngForm" se-container="2">
+        <se label="页面类型">
+          <nz-radio-group [(ngModel)]="page.type" name="page_type" nzButtonStyle="solid"  nzSize="large">
+            <label nz-radio-button nzValue="SEARCH">查询</label>
+            <label nz-radio-button nzValue="LIST">列表</label>
+            <label nz-radio-button nzValue="EDIT">编辑</label>
+            <label nz-radio-button nzValue="VIEW">查看</label>
+          </nz-radio-group>
+        </se>
+      </form>
     </nz-card>
   </nz-col>
   <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="16">
-
-
     <nz-card>
-      <nz-table nzBordered  [nzData]="">
-        <thead>
-        <tr
-          cdkDropList
-          #doneList="cdkDropList"
-          [cdkDropListData]="done"
-          cdkDropListOrientation="horizontal"
-          [cdkDropListConnectedTo]="[todoList]"
-          (cdkDropListDropped)="drop($event)"
-        >
-          <th>ID</th>
-          <th class="example-box" *ngFor="let item of done" cdkDrag class="cdk-drag-animating">
-            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-
-          {{item}}
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>0</td>
-          <td *ngFor="let item of done"
-          ></td>
-        </tr>
-        </tbody>
-      </nz-table>
-      <br/>
+      <div class="mb-md">
+        <button (click)="add()" nz-button nzType="primary">新建</button>
+        <button (click)="st.reload()" nz-button nzType="primary">刷新</button>
+      </div>
+      <st #st [data]="url" [columns]="columns" loading="false"></st>
     </nz-card>
   </nz-col>
-  <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="4" class="widget-properties-wrapper">
-
+  <nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="8" class="widget-properties-wrapper">
     <nz-card>
-      组件属性
+      <nz-tabset>
+        <nz-tab nzTitle="页面属性">
+<!--          <sf *ngIf="page" mode="edit" [schema]="basicSchema" [ui]="basicSchemaUi" [formData]="page" button="none">-->
+<!--          </sf>-->
+          <sf *ngIf="page" mode="edit" [schema]="basicSchema" [ui]="basicSchemaUi" [formData]="page" button="none">
+          </sf>
+        </nz-tab>
+        <nz-tab nzTitle="列编辑">
+          <sf *ngIf="page" mode="edit" [schema]="columnsSchema" [ui]="basicSchemaUi" [formData]="page" button="none">
+          </sf>
+        </nz-tab>
+        <nz-tab nzTitle="查询条件">
+          Content of Tab Pane 3
+        </nz-tab>
+      </nz-tabset>
     </nz-card>
   </nz-col>
 </div>
