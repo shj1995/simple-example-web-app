@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
-import { STColumn, STComponent, STRes } from '@delon/abc/st';
+import { STColumn, STComponent, STData, STRes } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { UserSystemUserViewComponent } from './view/view.component';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -18,9 +18,9 @@ export class UserSystemUserComponent implements OnInit {
       username: {
         type: 'string',
         title: '用户名',
-        default: ''
-      }
-    }
+        default: '',
+      },
+    },
   };
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
@@ -28,6 +28,13 @@ export class UserSystemUserComponent implements OnInit {
     { title: '昵称', index: 'nickname' },
     { title: '电话', index: 'phone' },
     { title: '邮箱', index: 'email' },
+    // { title: '头像', type: 'img', index: 'avatar',
+    //
+    // },
+    {
+      title: '头像',
+      render: 'avatar',
+    },
     { title: '启用', type: 'yn', index: 'enabled' },
     // { title: '过期', type: 'yn', index: 'expired' },
     { title: '锁定', type: 'yn', index: 'locked' },
@@ -40,7 +47,7 @@ export class UserSystemUserComponent implements OnInit {
           type: 'modal',
           modal: {
             size: 'md',
-            component: UserSystemUserViewComponent
+            component: UserSystemUserViewComponent,
           },
           click: (_record, modal) => this.message.success(`重新加载页面，回传值：${JSON.stringify(modal)}`),
         },
@@ -50,11 +57,11 @@ export class UserSystemUserComponent implements OnInit {
           type: 'modal',
           modal: {
             component: UserSystemUserEditComponent,
-            size: 'md'
+            size: 'md',
           },
           click: (_record, modal) => {
             this.st.reload();
-          }
+          },
         },
         {
           text: '重置密码',
@@ -62,23 +69,32 @@ export class UserSystemUserComponent implements OnInit {
           type: 'modal',
           modal: {
             component: UserSystemResetPasswordComponent,
-            size: 'md'
+            size: 'md',
           },
           click: (_record, modal) => {
             this.st.reload();
           },
-        }
-      ]
-    }
+        },
+      ],
+    },
   ];
+  searchValue: string;
+  changeImg(): void {
+    this.st.setRow(
+      0,
+      { picture: { thumbnail: 'https://ng-alain.com/assets/img/logo-color.svg' } },
+      { refreshSchema: true, emitReload: false },
+    );
+  }
+  constructor(private http: _HttpClient, private modal: ModalHelper, private message: NzMessageService) {
+  }
 
-  constructor(private http: _HttpClient, private modal: ModalHelper, private message: NzMessageService) { }
-
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   add() {
     this.modal
-      .createStatic(UserSystemUserEditComponent, { i: { id: 0 } },{size: 'md'})
+      .createStatic(UserSystemUserEditComponent, { i: { id: 0 } }, { size: 'md' })
       .subscribe(() => this.st.reload());
   }
 

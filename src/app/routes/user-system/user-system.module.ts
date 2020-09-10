@@ -9,6 +9,7 @@ import { UserSystemUserEditComponent } from './user/edit/edit.component';
 import { UserSystemUserViewComponent } from './user/view/view.component';
 import { UserSystemResetPasswordComponent } from './user/reset-password/reset-password.component';
 
+
 const COMPONENTS = [
   UserSystemRoleComponent,
   UserSystemUserComponent];

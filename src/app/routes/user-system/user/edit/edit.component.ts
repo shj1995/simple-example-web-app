@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFSelectWidgetSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFSelectWidgetSchema, SFUISchema, SFUploadWidgetSchema } from '@delon/form';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -15,6 +15,16 @@ export class UserSystemUserEditComponent implements OnInit {
   schema: SFSchema = {
     properties: {
       username: { type: 'string', title: '用户名' },
+      avatar: {
+        type: 'string',
+        title: '头像',
+        ui: {
+          widget: 'upload',
+          action: '/tk/files/upload',
+          resReName: 'file',
+          urlReName: 'url',
+        } as SFUploadWidgetSchema,
+      },
       nickname: { type: 'string', title: '昵称' },
       phone: { type: 'string', title: '电话' },
       email: { type: 'string', title: '邮箱' },

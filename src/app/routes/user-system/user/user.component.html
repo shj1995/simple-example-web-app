@@ -5,5 +5,9 @@
 </page-header>
 <nz-card>
   <sf mode="search" [schema]="searchSchema" (formSubmit)="st.reset($event)" (formReset)="st.reset($event)"></sf>
-  <st #st [data]="url" [columns]="columns"></st>
+  <st #st [data]="url" [columns]="columns">
+    <ng-template st-row="avatar" let-item let-index="index">
+      <img [src]="'/api/tk/files/'+item.avatar+'/view'" width="40">
+    </ng-template>
+  </st>
 </nz-card>

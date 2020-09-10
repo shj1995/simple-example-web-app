@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
-import { DataModelFieldEditComponent } from '../../../field/edit/edit.component';
+import { DataModelFieldEditComponent } from '../field/edit/edit.component';
 import { DataModelViewEditComponent } from './edit/edit.component';
 
 @Component({

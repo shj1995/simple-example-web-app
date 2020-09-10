@@ -10,6 +10,7 @@ import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
 import { ReuseTabModule } from '@delon/abc';
 import { SHARED_NGCDK_MODULES } from './shared-ngcdk.module';
+import { ImageModule } from '@delon/abc';
 
 // #region third libs
 

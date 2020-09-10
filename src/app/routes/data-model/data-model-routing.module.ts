@@ -4,7 +4,7 @@ import { DataModelModuleComponent } from './module/module.component';
 import { DataModelTypeComponent } from './type/type.component';
 import { DataModelTypeDesignComponent } from './type/design/design.component';
 import { DataModelFieldComponent } from './field/field.component';
-import { DataModelViewComponent } from './type/design/view/view.component';
+import { DataModelViewComponent } from './view/view.component';
 import { DataModelBusinessComponent } from './type/design/business/business.component';
 import { DataModelActionComponent } from './type/design/action/action.component';
 import { DataModelPageComponent } from './page/page.component';

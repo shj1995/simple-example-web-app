@@ -62,6 +62,8 @@ export class StartupService {
           // Application information: including site name, description, year
           this.settingService.setApp(appData);
           // User information: including name, avatar, email address
+          userData.avatar = `/api/tk/files/${userData.avatar}/view`;
+          userData.name = userData.nickname;
           this.settingService.setUser(userData);
           // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
           this.aclService.setFull(true);
