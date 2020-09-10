@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { _HttpClient } from '@delon/theme';
@@ -9,7 +9,6 @@ import { SFSchema, SFUISchema } from '@delon/form';
   templateUrl: './edit.component.html',
 })
 export class ToolkitMenuEditComponent implements OnInit {
-  parentId: string;
   record: any = {};
   i: any;
   schema: SFSchema = {
@@ -28,7 +27,7 @@ export class ToolkitMenuEditComponent implements OnInit {
       grid: { span: 24 },
     },
     $no: {
-      widget: 'text'
+      widget: 'text',
     },
     $href: {
       widget: 'string',
@@ -43,26 +42,26 @@ export class ToolkitMenuEditComponent implements OnInit {
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
-    if(this.record.id){
+    if (this.record.id) {
       this.http.get(`/tk/menus/${this.record.id}`).subscribe(res => (this.i = res));
     }
   }
 
   save(value: any) {
-    if (this.record.id){
-      value.parentId = this.parentId;
+    value.parentId = this.record.parentId;
+    if (this.record.id) {
       this.http.put(`/tk/menus`, value).subscribe(res => {
         this.msgSrv.success('保存成功');
-        this.modal.close(true);
+        this.modal.close(res);
       });
-    }else{
-      value.parentId = this.parentId;
+    } else {
       this.http.post(`/tk/menus`, value).subscribe(res => {
         this.msgSrv.success('保存成功');
-        this.modal.close(value);
+        this.modal.close(res);
       });
     }
 

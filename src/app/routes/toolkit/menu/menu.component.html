@@ -7,9 +7,10 @@
 
   <div class="mb-md">
     <button (click)="add()" nz-button nzType="primary">
-      <i nz-icon nzType="plus" nzTheme="outline"></i>
+<!--      <i nz-icon nzType="plus" nzTheme="outline"></i>-->
       添加根菜单
     </button>
+    <button (click)="loadData()" nz-button nzType="primary">刷新</button>
   </div>
 
   <nz-table #expandTable [nzData]="data" nzTableLayout="fixed">
@@ -29,7 +30,7 @@
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
           <td
             [nzIndentSize]="item.level! * 20"
-            [nzShowExpand]="!!item.children"
+            [nzShowExpand]="!!item.children && item.children.length > 0"
             [(nzExpand)]="item.expand"
             (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
           >
@@ -40,12 +41,12 @@
           <td [innerHTML]="item.disable | yn"></td>
           <td [innerHTML]="item.hide | yn"></td>
           <td>
-            <a (click)="addChildren(item.id)">添加子菜单</a>
+            <a (click)="addChildren(item)">添加子菜单</a>
             <nz-divider nzType="vertical"></nz-divider>
-            <a (click)="edit(item.id)">编辑</a>
+            <a (click)="edit(item)">编辑</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a nz-popconfirm nzPopconfirmTitle="是否确认删除?" nzPopconfirmPlacement="bottom"
-               (nzOnConfirm)="delete(item)">删除</a>
+               (nzOnConfirm)="delete(item.id)">删除</a>
           </td>
         </tr>
       </ng-container>
