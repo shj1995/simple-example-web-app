@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
-import { STColumn, STComponent, STData, STRes } from '@delon/abc/st';
+import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { UserSystemUserViewComponent } from './view/view.component';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -28,13 +28,14 @@ export class UserSystemUserComponent implements OnInit {
     { title: '昵称', index: 'nickname' },
     { title: '电话', index: 'phone' },
     { title: '邮箱', index: 'email' },
-    // { title: '头像', type: 'img', index: 'avatar',
-    //
-    // },
     {
-      title: '头像',
-      render: 'avatar',
+      title: '头像', type: 'widget',
+      widget: { type: 'dm-img', params: ({ record }) => ({ img: record.avatar}) },
     },
+    // {
+    //   title: '头像',
+    //   render: 'avatar',
+    // },
     { title: '启用', type: 'yn', index: 'enabled' },
     // { title: '过期', type: 'yn', index: 'expired' },
     { title: '锁定', type: 'yn', index: 'locked' },
@@ -79,6 +80,7 @@ export class UserSystemUserComponent implements OnInit {
     },
   ];
   searchValue: string;
+
   changeImg(): void {
     this.st.setRow(
       0,
@@ -86,6 +88,7 @@ export class UserSystemUserComponent implements OnInit {
       { refreshSchema: true, emitReload: false },
     );
   }
+
   constructor(private http: _HttpClient, private modal: ModalHelper, private message: NzMessageService) {
   }
 

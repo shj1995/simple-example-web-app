@@ -27,6 +27,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzBreadCrumbModule, NzNotificationServiceModule } from 'ng-zorro-antd';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 export const SHARED_ZORRO_MODULES = [
   NzFormModule,
@@ -60,4 +61,5 @@ export const SHARED_ZORRO_MODULES = [
   NzBreadCrumbModule,
   NzMessageServiceModule,
   NzNotificationServiceModule,
+  NzUploadModule
 ];

@@ -1,0 +1,17 @@
+<sf-item-wrap [error]="error" [id]="id" [schema]="schema" [showError]="showError" [showTitle]="schema.title" [ui]="ui">
+  <nz-upload
+    (nzChange)="handleChange($event)"
+    [nzBeforeUpload]="beforeUpload"
+    [nzShowUploadList]="false"
+    class="avatar-uploader"
+    nzAction="/tk/files/upload"
+    nzListType="picture-card"
+    nzName="file"
+  >
+    <ng-container *ngIf="!value">
+      <i [nzType]="loading ? 'loading' : 'plus'" class="upload-icon" nz-icon></i>
+      <div class="ant-upload-text">上传图片</div>
+    </ng-container>
+    <img *ngIf="value" [src]="'/api/tk/files/'+value+'/view'" style="width: 100%"/>
+  </nz-upload>
+</sf-item-wrap>

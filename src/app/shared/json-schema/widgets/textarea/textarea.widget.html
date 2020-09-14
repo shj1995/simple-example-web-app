@@ -1,0 +1,15 @@
+<sf-item-wrap [error]="error" [id]="id" [schema]="schema" [showError]="showError" [showTitle]="schema.title" [ui]="ui">
+  <textarea
+    (ngModelChange)="setValue($event)"
+    [attr.disabled]="disabled"
+    [attr.id]="id"
+    [attr.maxLength]="schema.maxLength || null"
+    [attr.placeholder]="ui.placeholder"
+    [disabled]="disabled"
+    [ngModel]="value"
+    [nzAutosize]="autosize"
+    [nzSize]="ui.size"
+    nz-input
+  >
+  </textarea>
+</sf-item-wrap>
