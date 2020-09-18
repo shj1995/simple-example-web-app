@@ -1,0 +1,45 @@
+<sf-item-wrap [error]="error" [id]="id" [schema]="schema" [showError]="showError" [showTitle]="schema.title" [ui]="ui">
+  <nz-select
+    (ngModelChange)="change($event)"
+    (nzOnSearch)="searchChange($event)"
+    (nzOpenChange)="openChange($event)"
+    (nzScrollToBottom)="scrollToBottom()"
+    [(ngModel)]="_value"
+    [compareWith]="i.compareWith"
+    [nzAllowClear]="ui.allowClear"
+    [nzAutoClearSearchValue]="i.autoClearSearchValue"
+    [nzAutoFocus]="i.autoFocus"
+    [nzBorderless]="i.borderless"
+    [nzClearIcon]="ui.clearIcon"
+    [nzCustomTemplate]="ui.customTemplate"
+    [nzDisabled]="disabled"
+    [nzDropdownClassName]="ui.dropdownClassName"
+    [nzDropdownMatchSelectWidth]="i.dropdownMatchSelectWidth"
+    [nzDropdownRender]="ui.dropdownRender"
+    [nzDropdownStyle]="ui.dropdownStyle"
+    [nzMaxMultipleCount]="i.maxMultipleCount"
+    [nzMaxTagCount]="i.maxTagCount"
+    [nzMaxTagPlaceholder]="ui.maxTagPlaceholder"
+    [nzMenuItemSelectedIcon]="ui.menuItemSelectedIcon"
+    [nzMode]="i.mode"
+    [nzNotFoundContent]="ui.notFoundContent"
+    [nzOptionHeightPx]="i.optionHeightPx"
+    [nzOptionOverflowSize]="i.optionOverflowSize"
+    [nzPlaceHolder]="ui.placeholder"
+    [nzRemoveIcon]="ui.removeIcon"
+    [nzServerSearch]="i.serverSearch"
+    [nzShowSearch]="i.showSearch"
+    [nzSize]="ui.size"
+    [nzSuffixIcon]="ui.suffixIcon"
+    [nzTokenSeparators]="i.tokenSeparators"
+  >
+    <ng-container *ngIf="!hasGroup">
+      <nz-option *ngFor="let o of data" [nzDisabled]="o.disabled" [nzLabel]="o.label" [nzValue]="o.value"></nz-option>
+    </ng-container>
+    <ng-container *ngIf="hasGroup">
+      <nz-option-group *ngFor="let i of data" [nzLabel]="i.label">
+        <nz-option *ngFor="let o of i.children" [nzDisabled]="o.disabled" [nzLabel]="o.label" [nzValue]="o.value"></nz-option>
+      </nz-option-group>
+    </ng-container>
+  </nz-select>
+</sf-item-wrap>

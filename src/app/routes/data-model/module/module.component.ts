@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { DataModelModuleEditComponent } from './edit/edit.component';
-import { UserSystemRoleViewComponent } from '../../user-system/role/view/view.component';
-import { UserSystemRoleEditComponent } from '../../user-system/role/edit/edit.component';
 import { DataModelModuleViewComponent } from './view/view.component';
 import { NzMessageService } from 'ng-zorro-antd';
 
@@ -15,7 +13,8 @@ export class DataModelModuleComponent implements OnInit {
   url = `/dm/modules/list`;
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
-    { title: '名称', index: 'name' },
+    { title: '内部名称', index: 'name' },
+    { title: '显示名称', index: 'displayAs' },
     { title: '描述', index: 'description' },
     { title: '系统模块', type: 'yn', index: 'system' },
     {

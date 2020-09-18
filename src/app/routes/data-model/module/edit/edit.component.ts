@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { _HttpClient } from '@delon/theme';
@@ -14,8 +14,9 @@ export class DataModelModuleEditComponent implements OnInit {
 
   schema: SFSchema = {
     properties: {
-      name: { type: 'string', title: '名称' },
-      description: { type: 'string', title: '描述', maxLength: 15 },
+      name: { type: 'string', title: '内部名称' },
+      displayAs: { type: 'string', title: '显示名称'},
+      description: { type: 'string', title: '描述'},
       system: { type: 'boolean', title: '系统模块' },
     },
     required: ['name'],
@@ -24,28 +25,29 @@ export class DataModelModuleEditComponent implements OnInit {
     '*': {
       spanLabelFixed: 100,
       grid: { span: 24 },
-    }
+    },
   };
 
   constructor(
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
     public http: _HttpClient,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
-    if (this.record.id){
+    if (this.record.id) {
       this.http.get(`/dm/modules/${this.record.id}`).subscribe(res => (this.i = res));
     }
   }
 
   save(value: any) {
-    if (this.record.id){
+    if (this.record.id) {
       this.http.put(`/dm/modules`, value).subscribe(res => {
         this.msgSrv.success('保存成功');
         this.modal.close(true);
       });
-    }else{
+    } else {
       this.http.post(`/dm/modules`, value).subscribe(res => {
         this.msgSrv.success('保存成功');
         this.modal.close(true);

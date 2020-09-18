@@ -21,9 +21,14 @@ export interface TreeNodeInterface {
 export class ToolkitMenuComponent implements OnInit {
   data: TreeNodeInterface[] = [];
 
+  datas = [1, 2, 3];
+
   constructor(
     public http: _HttpClient,
     private modal: ModalHelper) {
+    setTimeout(() => {
+      this.datas = [1, 3, 5];
+    }, 3000);
   }
 
   ngOnInit(): void {
@@ -118,16 +123,16 @@ export class ToolkitMenuComponent implements OnInit {
     const targetIndex = data.findIndex(value => value.id === id);
     if (targetIndex >= 0) {
       let target = data[targetIndex];
-      newData = {...newData, children:target.children,expand:target.expand};
+      newData = { ...newData, children: target.children, expand: target.expand };
       data.splice(targetIndex, 1, newData);
     } else {
-      data.forEach(v=> this.updateData(v.children,id,newData));
+      data.forEach(v => this.updateData(v.children, id, newData));
     }
   }
 
   addChildren(item: TreeNodeInterface) {
     this.modal
-      .createStatic(ToolkitMenuEditComponent, { record:{parentId: item.id} }, { size: 'md' })
+      .createStatic(ToolkitMenuEditComponent, { record: { parentId: item.id } }, { size: 'md' })
       .subscribe((result) => {
         if (!item.children) {
           item.children = [];

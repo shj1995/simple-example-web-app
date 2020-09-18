@@ -4,7 +4,7 @@ import { NzModalService } from 'ng-zorro-antd';
 @Component({
   selector: 'dm-col-img',
   template: `
-    <img nz-tooltip nzTooltipTitle="Client it" nzIcon="user" [src]="'/api/tk/files/'+img+'/view'" class="img" style="cursor: pointer" />
+    <img nz-tooltip nzTooltipTitle="查看大图" nzIcon="user" [src]="'/api/tk/files/'+img+'/view'" class="img" style="cursor: pointer" />
   `,
   host: {
     '(click)': 'show()',

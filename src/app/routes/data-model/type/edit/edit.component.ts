@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFSelectWidgetSchema, SFUISchema } from '@delon/form';
-import { map } from 'rxjs/operators';
+import { SFSchema, SFUISchema } from '@delon/form';
+import { DMEntitySelectWidgetSchema } from '../../../../shared/json-schema/widgets/entity-select/schema';
 
 @Component({
   selector: 'app-data-model-type-edit',
@@ -15,7 +15,7 @@ export class DataModelTypeEditComponent implements OnInit {
 
   schema: SFSchema = {
     properties: {
-      module: { type: 'string', title: '模块' },
+      module: { type: 'string', title: '模块', ui: { widget: 'dm-entity-select',sourceUrl:'/dm/modules/all',display:'`${v.name}`' }},
       name: { type: 'string', title: '表名' },
       displayAs: { type: 'string', title: '显示名称' },
       description: { type: 'string', title: '描述', maxLength: 15 },
@@ -30,23 +30,8 @@ export class DataModelTypeEditComponent implements OnInit {
       grid: { span: 24 },
     },
     $module: {
-      widget: 'select',
-      compareWith: (v1, v2) => {
-        return v1 && v2 && v1.id == v2.id;
-      },
-      asyncData: () =>
-        this.http.get(`/dm/modules/all`).pipe(
-          map((value: any) => {
-            return value.map((v) => {
-              return {
-                label: v.name,
-                value: v,
-                key: v,
-              };
-            });
-          }),
-        ),
-    } as SFSelectWidgetSchema,
+      widget: 'dm-entity-select',
+    } as DMEntitySelectWidgetSchema,
   };
 
   constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient) {}

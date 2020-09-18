@@ -1,9 +1,9 @@
-import { Injectable, Injector, Inject } from '@angular/core';
+import { Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { zip } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { MenuService, SettingsService, TitleService, ALAIN_I18N_TOKEN } from '@delon/theme';
+import { MenuService, SettingsService, TitleService } from '@delon/theme';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { ACLService } from '@delon/acl';
 
@@ -57,19 +57,11 @@ export class StartupService {
       )
       .subscribe(
         ([appData, userData, menuData]) => {
-          // Application data
-          // const res: any = appData;
-          // Application information: including site name, description, year
           this.settingService.setApp(appData);
-          // User information: including name, avatar, email address
           userData.avatar = `/api/tk/files/${userData.avatar}/view`;
           userData.name = userData.nickname;
           this.settingService.setUser(userData);
-          // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
           this.aclService.setFull(true);
-          // Menu data, https://ng-alain.com/theme/menu
-          // this.menuService.add(res.menu);
-          // Can be set page suffix title, https://ng-alain.com/theme/title
           this.titleService.suffix = appData.name;
           this.menuService.add(menuData[0].children);
         },

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema } from '@delon/form';
+import { SFComponent, SFSchema, SFUISchema } from '@delon/form';
 
 @Component({
   selector: 'app-data-model-field-edit',
@@ -11,11 +11,19 @@ import { SFSchema, SFUISchema } from '@delon/form';
 export class DataModelFieldEditComponent implements OnInit {
   record: any = {};
   i: any;
-
+  @ViewChild(SFComponent)
+  st: SFComponent;
   schema: SFSchema = {
     properties: {
-      name: { type: 'string', title: '名称' },
+      name: { type: 'string', title: '名称', ui: { hidden: false } },
       displayAs: { type: 'string', title: '显示' },
+      fieldType: {
+        type: 'string', title: '字段类型', ui: {
+          widget: 'dm-entity-select',
+          sourceUrl: '/dm/dataTypes/all'
+        },
+      },
+      source: { type: 'string', title: 'source', ui: { hidden: false } },
       description: { type: 'string', title: '描述', maxLength: 140 },
     },
     required: ['name', 'displayAs'],
@@ -23,7 +31,7 @@ export class DataModelFieldEditComponent implements OnInit {
   ui: SFUISchema = {
     '*': {
       spanLabelFixed: 100,
-      grid: { span: 12 },
+      grid: { span: 24 },
     },
     name: {
       widget: 'string',
@@ -34,10 +42,12 @@ export class DataModelFieldEditComponent implements OnInit {
     $description: {
       widget: 'textarea',
       grid: { span: 24 },
+      autosize:{ minRows: 2, maxRows: 4 }
     },
   };
 
-  constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient) {}
+  constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient) {
+  }
 
   ngOnInit(): void {
     if (this.record.id) {

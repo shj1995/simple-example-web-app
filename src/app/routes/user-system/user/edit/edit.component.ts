@@ -31,9 +31,6 @@ export class UserSystemUserEditComponent implements OnInit {
         title: '头像',
         ui: {
           widget: 'dm-image',
-          action: '/tk/files/upload',
-          resReName: 'file',
-          urlReName: 'url',
         } as DMImageWidgetSchema,
       },
       nickname: { type: 'string', title: '昵称' },

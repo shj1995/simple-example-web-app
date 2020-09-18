@@ -15,10 +15,10 @@ export class DataModelFieldComponent implements OnInit {
   columns: STColumn[] = [
     { title: '名称', index: 'name' },
     { title: '显示', index: 'displayAs' },
-    { title: '类型', index: 'type' },
+    { title: '类型', index: 'fieldType.displayAs' },
     { title: 'schema', index: 'displayAs' },
-    { title: '数组', index: 'array' },
-    { title: '系统', index: 'array' },
+    { title: '数组', index: 'array', type: 'yn' },
+    { title: '系统', index: 'system', type: 'yn' },
     {
       title: '',
       buttons: [
@@ -27,6 +27,9 @@ export class DataModelFieldComponent implements OnInit {
           icon: 'edit',
           type: 'modal',
           modal: {
+            modalOptions: {
+              nzMaskClosable: false,
+            },
             component: DataModelFieldEditComponent,
             size: 'md',
           },
@@ -38,7 +41,8 @@ export class DataModelFieldComponent implements OnInit {
     },
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper) {}
+  constructor(private http: _HttpClient, private modal: ModalHelper) {
+  }
 
   ngOnInit() {
     this.url = `/dm/types/${this.typeId}/fields`;
