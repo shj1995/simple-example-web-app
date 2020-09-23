@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
-import { ToolkitMenuEditComponent } from './edit/edit.component';
+import { ToolkitCategoryEditComponent } from '../category/edit/edit.component';
 
 export interface TreeNodeInterface {
   id: string;
@@ -13,13 +13,13 @@ export interface TreeNodeInterface {
   children?: TreeNodeInterface[];
   parent?: TreeNodeInterface;
 }
-
 @Component({
-  selector: 'app-toolkit-menu',
-  templateUrl: './menu.component.html',
+  selector: 'app-toolkit-category',
+  templateUrl: './category.component.html',
 })
-export class ToolkitMenuComponent implements OnInit {
+export class ToolkitCategoryComponent implements OnInit {
   data: TreeNodeInterface[] = [];
+  mapOfExpandedData: { [id: string]: TreeNodeInterface[] } = {};
 
   constructor(
     public http: _HttpClient,
@@ -31,7 +31,7 @@ export class ToolkitMenuComponent implements OnInit {
   }
 
   loadData() {
-    this.http.get('/tk/menus/all').subscribe(res => {
+    this.http.get('/tk/categories/all').subscribe(res => {
       this.data = res;
       this.data.forEach(item => {
         this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
@@ -63,8 +63,6 @@ export class ToolkitMenuComponent implements OnInit {
       array.push(node);
     }
   }
-
-  mapOfExpandedData: { [id: string]: TreeNodeInterface[] } = {};
 
   collapse(array: TreeNodeInterface[], data: TreeNodeInterface, $event: boolean): void {
     if (!$event) {
@@ -127,7 +125,7 @@ export class ToolkitMenuComponent implements OnInit {
 
   addChildren(item: TreeNodeInterface) {
     this.modal
-      .createStatic(ToolkitMenuEditComponent, { record: { parentId: item.id } }, { size: 'md' })
+      .createStatic(ToolkitCategoryEditComponent, { record: { parentId: item.id } }, { size: 'md' })
       .subscribe((result) => {
         if (!item.children) {
           item.children = [];
@@ -145,7 +143,7 @@ export class ToolkitMenuComponent implements OnInit {
   }
 
   delete(id: string) {
-    this.http.delete(`/tk/menus/${id}`).subscribe(res => {
+    this.http.delete(`/tk/categories/${id}`).subscribe(res => {
       this.removeData(this.data, id);
       this.data.forEach(i => {
         this.mapOfExpandedData[i.id] = this.convertTreeToList(i);
@@ -155,7 +153,7 @@ export class ToolkitMenuComponent implements OnInit {
 
   edit(item: TreeNodeInterface) {
     this.modal
-      .createStatic(ToolkitMenuEditComponent, { record: item }, { size: 'md' })
+      .createStatic(ToolkitCategoryEditComponent, { record: item }, { size: 'md' })
       .subscribe((result) => {
         this.updateData(this.data, item.id, result);
         this.data.forEach(i => {
@@ -166,14 +164,13 @@ export class ToolkitMenuComponent implements OnInit {
 
   add() {
     this.modal
-      .createStatic(ToolkitMenuEditComponent, { record: { parentId: "" } }, { size: 'md' })
+      .createStatic(ToolkitCategoryEditComponent, { record: { parentId: "" } }, { size: 'md' })
       .subscribe((result) => {
         this.data.push(result);
         this.data.forEach(i => {
           this.mapOfExpandedData[i.id] = this.convertTreeToList(i);
         });
       });
-
   }
 
 }

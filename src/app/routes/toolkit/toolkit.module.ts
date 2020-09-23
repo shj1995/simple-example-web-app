@@ -4,12 +4,24 @@ import { ToolkitRoutingModule } from './toolkit-routing.module';
 import { ToolkitMenuComponent } from './menu/menu.component';
 import { ToolkitMenuEditComponent } from './menu/edit/edit.component';
 import { ToolkitMenuViewComponent } from './menu/view/view.component';
+import { ToolkitCategoryComponent } from './category/category.component';
+import { ToolkitCategoryEditComponent } from './category/edit/edit.component';
+import { ToolkitCategoryViewComponent } from './category/view/view.component';
+import { ToolkitTreeComponent } from './tree/tree.component';
+import { ToolkitTreeEditComponent } from './tree/edit/edit.component';
+import { ToolkitTreeViewComponent } from './tree/view/view.component';
 
 const COMPONENTS = [
-  ToolkitMenuComponent];
+  ToolkitMenuComponent,
+  ToolkitCategoryComponent,
+  ToolkitTreeComponent];
 const COMPONENTS_NOROUNT = [
   ToolkitMenuEditComponent,
-  ToolkitMenuViewComponent];
+  ToolkitMenuViewComponent,
+  ToolkitCategoryEditComponent,
+  ToolkitCategoryViewComponent,
+  ToolkitTreeEditComponent,
+  ToolkitTreeViewComponent];
 
 @NgModule({
   imports: [
