@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { ZorroTableTreeUtil } from '@core';
 import { ToolkitTreeEditComponent } from './edit/edit.component';
+import { _HttpClient, ModalHelper } from '@delon/theme';
+import { ToolkitMenuEditComponent } from '../menu/edit/edit.component';
+import { TreeNodeInterface } from '../menu/menu.component';
 
 @Component({
   selector: 'app-toolkit-tree',
@@ -9,48 +12,37 @@ import { ToolkitTreeEditComponent } from './edit/edit.component';
 })
 export class ToolkitTreeComponent implements OnInit {
 
-  data=[
-    {
-      key: 1,
-      name: 'John 01.',
-      num: 60,
-      address: 'New York No. 1 Lake Park',
-      children: [
-        {
-          key: 11,
-          name: 'John 01-01',
-          hasChildren: true,
-          address: 'New York No. 2 Lake Park'
-        },
-        {
-          key: 12,
-          name: 'John 01-02',
-          num: 30,
-          address: 'New York No. 3 Lake Park'
-        }
-      ]
-    },
+  data = [
     {
       key: 2,
       name: 'Joe 02',
       num: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
+      address: 'Sidney No. 1 Lake Park',
+    },
   ];
-  treeUtils:ZorroTableTreeUtil<any>
+  treeUtils: ZorroTableTreeUtil<any>;
 
   constructor(
     private modalService: NzModalService,
-    private messageService: NzMessageService
+    private messageService: NzMessageService,
+    private http: _HttpClient,
+    private modal: ModalHelper,
   ) {
   }
 
   ngOnInit() {
-    this.treeUtils = new ZorroTableTreeUtil({
-      keys: {idKey: "key", pIdKey: "parentKey", pKey: "parent", childKey: "children"},
-      data: this.data
+    this.loadData();
+  }
+
+  loadData() {
+    this.http.get(`/tk/menus/all`).subscribe(res => {
+      this.data = res;
+      this.treeUtils = new ZorroTableTreeUtil({
+        keys: { idKey: 'id', pIdKey: 'parentId', pKey: 'parent', childKey: 'children' },
+        data: this.data,
+      });
+      this.treeUtils.init();
     });
-    this.treeUtils.init();
   }
 
   toAddNode() {
@@ -58,7 +50,7 @@ export class ToolkitTreeComponent implements OnInit {
       key: Math.random(),
       name: 'John Brown' + Math.random(),
       num: Math.random(),
-      parentKey: "11",
+      parentKey: '11',
       address: 'New York No. 2 Lake Park',
     }] as Array<any>;
     this.treeUtils.toAddNode(newNodes);
@@ -77,9 +69,9 @@ export class ToolkitTreeComponent implements OnInit {
   toRemoveNode(item?: any) {
     if (item) {
       this.treeUtils.toRemoveNode(item);
-      if(item.parent){
-        item.parent.children=null;
-        item.parent.hasChildren=false;
+      if (item.parent) {
+        item.parent.children = null;
+        item.parent.hasChildren = false;
       }
     }
   }
@@ -101,34 +93,34 @@ export class ToolkitTreeComponent implements OnInit {
     this.loadChildren(data);
   }
 
-  checkboxChange(state,node){
-    this.treeUtils.updateCheckState(state,node);
+  checkboxChange(state, node) {
+    this.treeUtils.updateCheckState(state, node);
   }
 
-  getCheckedNodeIdGroupByCheckState(){
-    const nodes=this.treeUtils.getCheckedNodeGroupByCheckState();
+  getCheckedNodeIdGroupByCheckState() {
+    const nodes = this.treeUtils.getCheckedNodeGroupByCheckState();
     const recursionAll = [];
     nodes.recursionAll.forEach(v => {
       recursionAll.push(v.name);
     });
-    this.messageService.success('全选且子节点已加载：'+recursionAll.join('、'));
+    this.messageService.success('全选且子节点已加载：' + recursionAll.join('、'));
 
     const unRecursionChecked = [];
     nodes.unRecursionChecked.forEach(v => {
       unRecursionChecked.push(v.name);
     });
-    this.messageService.success('全选且子节点未加载：'+unRecursionChecked.join('、'));
+    this.messageService.success('全选且子节点未加载：' + unRecursionChecked.join('、'));
 
     const recursionPart = [];
     nodes.recursionPart.forEach(v => {
       recursionPart.push(v.name);
     });
-    this.messageService.success('半选且子节点未加载：'+recursionPart.join('、'));
+    this.messageService.success('半选且子节点未加载：' + recursionPart.join('、'));
     const unRecursionIndeterminate = [];
     nodes.unRecursionIndeterminate.forEach(v => {
       unRecursionIndeterminate.push(v.name);
     });
-    this.messageService.success('半选且子节点已加载：'+unRecursionIndeterminate.join('、'));
+    this.messageService.success('半选且子节点已加载：' + unRecursionIndeterminate.join('、'));
   }
 
   openCreateForm(parentNode) {
@@ -139,7 +131,7 @@ export class ToolkitTreeComponent implements OnInit {
       nzWidth: styleCfg.width,
       nzBodyStyle: styleCfg,
       nzComponentParams: {
-        parentNode
+        parentNode,
       },
       nzFooter: [
         {
@@ -152,7 +144,7 @@ export class ToolkitTreeComponent implements OnInit {
           type: 'primary',
           onClick: componentInstance => {
             const value = componentInstance.submitForm();
-            if(value){
+            if (value) {
               this.treeUtils.toAddNode([value]);
               modal.close(value);
             }
@@ -162,36 +154,28 @@ export class ToolkitTreeComponent implements OnInit {
     });
   }
 
-  openUpdateForm(node) {
-    const styleCfg = { width: '600px', height: '250px', overflow: 'auto' };
-    const modal = this.modalService.create({
-      nzTitle: '表单信息',
-      nzContent: ToolkitTreeEditComponent,
-      nzWidth: styleCfg.width,
-      nzBodyStyle: styleCfg,
-      nzComponentParams:{
-        node
-      },
-      nzFooter: [
-        {
-          label: '取消',
-          onClick: componentInstance => {
-            modal.close(null);
-          },
-        }, {
-          label: '更新',
-          type: 'primary',
-          onClick: componentInstance => {
-            const value = componentInstance.submitForm();
-            if(value){
-              this.treeUtils.toUpdateNode(value);
-              modal.close(value);
-            }
-          },
-        },
-      ],
-    });
+
+  add(parentId: string) {
+    this.modal
+      .createStatic(ToolkitMenuEditComponent, { record: { parentId: parentId } }, { size: 'md' })
+      .subscribe((result) => {
+        result.parentId = parentId;
+        this.treeUtils.toAddNode(result);
+      });
+  }
+
+  edit(item: TreeNodeInterface) {
+    this.modal
+      .createStatic(ToolkitMenuEditComponent, { record: item }, { size: 'md' })
+      .subscribe((result) => {
+        this.treeUtils.toUpdateNode(result);
+      });
   }
 
 
+  delete(id: string) {
+    this.http.delete(`/tk/menus/${id}`).subscribe(res => {
+      this.treeUtils.toRemoveNode({id})
+    });
+  }
 }

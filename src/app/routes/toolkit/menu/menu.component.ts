@@ -173,7 +173,6 @@ export class ToolkitMenuComponent implements OnInit {
           this.mapOfExpandedData[i.id] = this.convertTreeToList(i);
         });
       });
-
   }
 
 }
