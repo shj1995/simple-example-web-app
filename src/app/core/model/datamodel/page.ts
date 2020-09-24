@@ -1,4 +1,4 @@
-import { PageType } from '../../enuns/page-type.enum';
+import { PageType } from '../../enuns';
 
 export abstract class Page {
   private _id: string;

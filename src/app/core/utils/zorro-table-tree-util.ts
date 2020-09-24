@@ -70,6 +70,7 @@ export class ZorroTableTreeUtil<T> {
     }
     let id = newNode[this.keys.idKey];
     let oldNode = this.getCacheNode(id);
+    newNode[this.keys.childKey] = oldNode[this.keys.childKey];
     if (oldNode) {
       ArrayUtils.merge([oldNode], newNode, this.keys, (old, newNode) => {
         let result = {};

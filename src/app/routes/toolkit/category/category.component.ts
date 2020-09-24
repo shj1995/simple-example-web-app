@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
 import { ToolkitCategoryEditComponent } from '../category/edit/edit.component';
+import { Menu, ZorroTableTreeUtil } from '@core';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 export interface TreeNodeInterface {
   id: string;
@@ -18,159 +21,68 @@ export interface TreeNodeInterface {
   templateUrl: './category.component.html',
 })
 export class ToolkitCategoryComponent implements OnInit {
-  data: TreeNodeInterface[] = [];
-  mapOfExpandedData: { [id: string]: TreeNodeInterface[] } = {};
+
+  data = [];
+  treeUtils: ZorroTableTreeUtil<Menu>;
 
   constructor(
-    public http: _HttpClient,
-    private modal: ModalHelper) {
+    private modalService: NzModalService,
+    private messageService: NzMessageService,
+    private http: _HttpClient,
+    private modal: ModalHelper,
+  ) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadData();
   }
 
   loadData() {
-    this.http.get('/tk/categories/all').subscribe(res => {
+    this.http.get(`/tk/categories/all`).subscribe(res => {
       this.data = res;
-      this.data.forEach(item => {
-        this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+      this.treeUtils = new ZorroTableTreeUtil({
+        keys: { idKey: 'id', pIdKey: 'parentId', pKey: 'parent', childKey: 'children' },
+        data: this.data,
       });
+      this.treeUtils.init();
     });
   }
 
-  convertTreeToList(root: TreeNodeInterface): TreeNodeInterface[] {
-    const stack: TreeNodeInterface[] = [];
-    const array: TreeNodeInterface[] = [];
-    const hashMap = {};
-    stack.push({ ...root, level: 0, expand: !!root.expand });
-
-    while (stack.length !== 0) {
-      const node = stack.pop()!;
-      this.visitNode(node, hashMap, array);
-      if (node.children) {
-        for (let i = node.children.length - 1; i >= 0; i--) {
-          stack.push({ ...node.children[i], level: node.level! + 1, expand: !!node.children[i].expand, parent: node });
-        }
-      }
-    }
-    return array;
+  collapse(array: any[], data: any, $event: boolean): void {
+    this.treeUtils.collapse(array, data, $event);
   }
 
-  visitNode(node: TreeNodeInterface, hashMap: { [id: string]: boolean }, array: TreeNodeInterface[]): void {
-    if (!hashMap[node.id]) {
-      hashMap[node.id] = true;
-      array.push(node);
-    }
+  checkboxChange(state, node) {
+    this.treeUtils.updateCheckState(state, node);
   }
 
-  collapse(array: TreeNodeInterface[], data: TreeNodeInterface, $event: boolean): void {
-    if (!$event) {
-      if (data.children) {
-        data.children.forEach(d => {
-          const target = array.find(a => a.id === d.id)!;
-          if (target.expand == true) {
-            target.expand = false;
-            this.collapse(array, target, false);
-          }
-        });
-      } else {
-        return;
-      }
-    } else {
-      this.data.forEach(child => this.setExpand(child, data.id, true));
-      console.log(this.data);
-    }
-  }
-
-  setExpand(data: TreeNodeInterface, id: string, expand: boolean) {
-    if (data.id === id) {
-      if (data.expand != expand) {
-        data.expand = expand;
-      }
-    } else if (data.children) {
-      data.children.forEach(child => {
-        this.setExpand(child, id, expand);
-      });
-    }
-  }
-
-  removeData(data: TreeNodeInterface[], id: string) {
-    if (data) {
-      for (let i = 0; i < data.length; i++) {
-        let child = data[i];
-        if (id === child.id) {
-          data.splice(i, 1);
-          return;
-        } else {
-          this.removeData(child.children, id);
-        }
-      }
-    }
-  }
-
-  updateData(data: TreeNodeInterface[], id: string, newData: TreeNodeInterface) {
-    if (!data) {
-      return;
-    }
-    const targetIndex = data.findIndex(value => value.id === id);
-    if (targetIndex >= 0) {
-      let target = data[targetIndex];
-      newData = { ...newData, children: target.children, expand: target.expand };
-      data.splice(targetIndex, 1, newData);
-    } else {
-      data.forEach(v => this.updateData(v.children, id, newData));
-    }
-  }
-
-  addChildren(item: TreeNodeInterface) {
+  add(parentId: string) {
     this.modal
-      .createStatic(ToolkitCategoryEditComponent, { record: { parentId: item.id } }, { size: 'md' })
+      .createStatic(ToolkitCategoryEditComponent, { record: { parentId: parentId } }, { size: 'md' })
       .subscribe((result) => {
-        if (!item.children) {
-          item.children = [];
-        }
-        item.children.push(result);
-        this.data.forEach(i => {
-          this.mapOfExpandedData[i.id] = this.convertTreeToList(i);
-        });
+        result.parentId = parentId;
+        this.treeUtils.toAddNode(result);
       });
-  }
-
-  getItemRootId(item: TreeNodeInterface): string {
-    // if (item.parent)
-    return '';
-  }
-
-  delete(id: string) {
-    this.http.delete(`/tk/categories/${id}`).subscribe(res => {
-      this.removeData(this.data, id);
-      this.data.forEach(i => {
-        this.mapOfExpandedData[i.id] = this.convertTreeToList(i);
-      });
-    });
   }
 
   edit(item: TreeNodeInterface) {
     this.modal
       .createStatic(ToolkitCategoryEditComponent, { record: item }, { size: 'md' })
       .subscribe((result) => {
-        this.updateData(this.data, item.id, result);
-        this.data.forEach(i => {
-          this.mapOfExpandedData[i.id] = this.convertTreeToList(i);
-        });
+        this.treeUtils.toUpdateNode(result);
       });
   }
 
-  add() {
-    this.modal
-      .createStatic(ToolkitCategoryEditComponent, { record: { parentId: "" } }, { size: 'md' })
-      .subscribe((result) => {
-        this.data.push(result);
-        this.data.forEach(i => {
-          this.mapOfExpandedData[i.id] = this.convertTreeToList(i);
-        });
-      });
+
+  delete(id: string) {
+    this.http.delete(`/tk/menus/${id}`).subscribe(res => {
+      this.treeUtils.toRemoveNode({ id });
+    });
+  }
+
+  drop(event: CdkDragDrop<string[]>): void {
+    console.log(event);
+    moveItemInArray(this.data, event.previousIndex, event.currentIndex);
   }
 
 }

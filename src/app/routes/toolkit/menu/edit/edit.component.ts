@@ -17,6 +17,8 @@ export class ToolkitMenuEditComponent implements OnInit {
       link: { type: 'string', title: '链接' },
       icon: { type: 'string', title: '图标' },
       group: { type: 'boolean', title: '分组' },
+      hide: { type: 'boolean', title: '隐藏' },
+      disable: { type: 'boolean', title: '禁用' },
       description: { type: 'string', title: '描述', maxLength: 140 },
     },
     required: ['text'],
