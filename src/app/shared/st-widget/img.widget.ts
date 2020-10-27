@@ -16,12 +16,12 @@ export class STImgWidget {
   isVisible = false;
   img: string;
 
-  constructor(private modal: NzModalService) {}
+  constructor(private modal: NzModalService) { }
 
   show(): void {
     this.isVisible = true;
     this.modal.create({
-      nzContent: `<img src="/api/tk/files/${this.img}/view" class="img-fluid" />`,
+      nzContent: `<img src="/api/tk/files/${this.img}/view" style="width: 100%;height: 100%;" class="dm-img" />`,
       nzFooter: null,
     });
   }
